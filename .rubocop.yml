@@ -1,0 +1,26 @@
+require:
+  - "rubocop-minitest"
+  - "rubocop-performance"
+  - "rubocop-rake"
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+Layout/LineLength:
+  Max: 120
+  Exclude: 
+    - "test/**/*.rb"
+
+Style/AsciiComments:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/ParallelAssignment:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
