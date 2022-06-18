@@ -15,9 +15,5 @@ module Checkmark
       questions.shuffle!
       tap { questions.each(&:shuffle!) }
     end
-
-    def to_s
-      [text, *questions.map(&:to_s)].join("\n")
-    end
   end
 end

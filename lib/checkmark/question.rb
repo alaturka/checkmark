@@ -12,9 +12,5 @@ module Checkmark
     def shuffle!
       tap { choices.shuffle! }
     end
-
-    def to_s
-      [stem, *choices.map(&:to_s)].join("\n")
-    end
   end
 end

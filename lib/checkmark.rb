@@ -8,3 +8,5 @@ require_relative 'checkmark/choices'
 require_relative 'checkmark/question'
 require_relative 'checkmark/item'
 require_relative 'checkmark/quiz'
+
+require_relative 'checkmark/render'

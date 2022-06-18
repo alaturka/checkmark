@@ -33,10 +33,6 @@ module Checkmark
       self[correct]
     end
 
-    def to_s
-      map { |key, choice| "#{key}. #{choice}" }.join("\n")
-    end
-
     alias each_choice each_value
 
     def self.[](...)

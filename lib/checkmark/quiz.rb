@@ -14,9 +14,5 @@ module Checkmark
     def shuffle!
       tap { items.each(&:shuffle!) }
     end
-
-    def to_s
-      items.map(&:to_s).join("\n")
-    end
   end
 end
