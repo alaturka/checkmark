@@ -32,7 +32,7 @@ module Checkmark
     end
 
     def test_shuffle_explicit
-      choices = Choices[**TESTDATA]
+      choices = Choices[:E, **TESTDATA]
 
       correct_choice_initial = choices.correct_choice
 
