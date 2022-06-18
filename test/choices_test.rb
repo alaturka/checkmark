@@ -20,6 +20,15 @@ module Checkmark
       assert_equal('third', choices.correct_choice)
     end
 
+    def test_like_hash
+      choices = Choices[**TESTDATA]
+
+      assert_equal(TESTDATA.size, choices.size)
+
+      assert_equal('fifth', choices[:E])
+      assert_equal('fifth', choices[:E])
+    end
+
     def test_shuffle_implicit
       choices = Choices[**TESTDATA]
 
