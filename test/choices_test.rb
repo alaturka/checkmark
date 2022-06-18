@@ -25,7 +25,7 @@ module Checkmark
 
       assert_equal(TESTDATA.size, choices.size)
 
-      assert_equal('fifth', choices[:E])
+      assert_equal('first', choices[:A])
       assert_equal('fifth', choices[:E])
     end
 
