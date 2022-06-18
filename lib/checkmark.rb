@@ -9,4 +9,6 @@ require_relative 'checkmark/question'
 require_relative 'checkmark/item'
 require_relative 'checkmark/quiz'
 
+require_relative 'checkmark/parser'
+require_relative 'checkmark/loader'
 require_relative 'checkmark/render'

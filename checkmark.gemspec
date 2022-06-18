@@ -24,6 +24,9 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.0.2'
 
+  s.add_dependency 'dry-cli'
+  s.add_dependency 'kramdown'
+
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'minitest-focus', '>= 1.2.1'
   s.add_development_dependency 'minitest-reporters', '>= 1.4.3'
