@@ -2,19 +2,17 @@
 
 require_relative './test_helper'
 
-# rubocop:disable all
-
 module Checkmark
   class QuizTest < Minitest::Test
     TESTDATA = {
-      meta: {
+      meta:  {
         title: 'Title'
       },
       items: [
         {
           questions: [
             {
-              stem: 'question 1',
+              stem:    'question 1',
               choices: {
                 A: 'q1 A',
                 B: 'q1 B',
@@ -26,10 +24,10 @@ module Checkmark
           ]
         },
         {
-          text: 'question21 and question 22',
+          text:      'question21 and question 22',
           questions: [
             {
-              stem: 'question 21',
+              stem:    'question 21',
               choices: {
                 A: 'q21 A',
                 B: 'q21 B',
@@ -39,7 +37,7 @@ module Checkmark
               }
             },
             {
-              stem: 'question 22',
+              stem:    'question 22',
               choices: {
                 A: 'q22 A',
                 B: 'q22 B',
@@ -53,7 +51,7 @@ module Checkmark
         {
           questions: [
             {
-              stem: 'question 3',
+              stem:    'question 3',
               choices: {
                 A: 'q3 A',
                 B: 'q3 B',
@@ -67,7 +65,7 @@ module Checkmark
         {
           questions: [
             {
-              stem: 'question 4',
+              stem:    'question 4',
               choices: {
                 A: 'q4 A',
                 B: 'q4 B',
@@ -81,7 +79,7 @@ module Checkmark
         {
           questions: [
             {
-              stem: 'question 5',
+              stem:    'question 5',
               choices: {
                 A: 'q5 A',
                 B: 'q5 B',
@@ -95,26 +93,32 @@ module Checkmark
       ]
     }.freeze
 
-    def test_constructor
-      testdata = TESTDATA
-
-      quiz = Quiz.new(
-        testdata[:meta],
-
-        testdata[:items].map do |item_hash|
+    def quiz
+      Quiz.new(
+        TESTDATA[:meta],
+        TESTDATA[:items].map do |item_hash|
           Item.new(
             item_hash[:text],
-
             item_hash[:questions].map do |question_hash|
               Question.new(
                 question_hash[:stem],
-
                 Choices[**question_hash[:choices]]
               )
             end
           )
         end
       )
+    end
+
+    def test_construction
+      quiz
+    end
+
+    def test_forwardable
+      assert_equal(TESTDATA[:items].size, quiz.size)
+    end
+
+    def test_shuffle
       quiz.shuffle!
     end
   end

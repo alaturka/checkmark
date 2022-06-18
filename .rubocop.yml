@@ -12,6 +12,17 @@ Layout/LineLength:
   Exclude: 
     - "test/**/*.rb"
 
+Metrics/BlockLength:
+  Exclude: 
+    - "test/**/*.rb"
+    - "*.gemspec"
+Metrics/ClassLength:
+  Exclude: 
+    - "test/**/*.rb"
+Metrics/MethodLength:
+  Exclude: 
+    - "test/**/*.rb"
+
 Style/AsciiComments:
   Enabled: false
 Style/Documentation:

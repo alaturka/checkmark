@@ -13,9 +13,7 @@ module Checkmark
 
     def included(base)
       base.extend Forwardable
-
-      base.def_delegators(@forwardable, :<<, :append, :each, :map, *@extra_methods)
-
+      base.def_delegators(@forwardable, :<<, :append, :each, :map, :size, *@extra_methods)
       base.include InstanceMethods
     end
 
