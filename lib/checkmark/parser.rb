@@ -45,7 +45,7 @@ module Checkmark
       items = iter.map do |chunk, i|
         error('Empty item', context) if chunk.empty?
 
-        parse_item(chunk, context.tap { |c| c.item = i })
+        parse_item(chunk, context.tap { _1.item = i })
       end
 
       Quiz.new({}, items)
@@ -62,7 +62,7 @@ module Checkmark
       questions = iter.map do |chunk, i|
         error('Empty question', context) if chunk.empty?
 
-        parse_question(chunk, context.tap { |c| c.question = i })
+        parse_question(chunk, context.tap { _1.question = i })
       end
 
       Item.new(text, questions)
