@@ -13,7 +13,7 @@ module Checkmark
 
     Error = Class.new Error
 
-    Context = Struct.new :item, :question, :choice, keyword_init: true
+    Context = Struct.new :origin, :item, :question, :choice, keyword_init: true
 
     attr_reader :raw, :options
 
@@ -32,7 +32,7 @@ module Checkmark
 
     def parse_quiz(content)
       items = content.strip!.split(RE[:item_sep]).each_with_index.map do |chunk, i|
-        parse_item(chunk, Context.new(item: i))
+        parse_item(chunk, Context.new(origin: options[:origin], item: i))
       end
 
       Quiz.new({}, items)
