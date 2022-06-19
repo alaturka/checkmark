@@ -101,6 +101,9 @@ module Checkmark
     end
 
     def new_sanitized_choices(klass, hash, context)
+      choice, = hash.detect { |_, text| text.empty? }
+      error("Empty choice: #{choice}", context) if choice
+
       klass.new(**hash).tap do |choices|
         duplicate = choices.duplicate
         error("Duplicate choice found: #{duplicate}", context) if duplicate
