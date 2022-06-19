@@ -93,8 +93,8 @@ module Checkmark
         {
           questions: [
             {
-              stem:           'question 6',
-              compactchoices: { A: 'q6 A', B: 'q6 B', C: 'q6 C', D: 'q6 D', E: 'q6 E' }
+              stem:         'question 6',
+              shortchoices: { A: 'q6 A', B: 'q6 B', C: 'q6 C', D: 'q6 D', E: 'q6 E' }
             }
           ]
         }
@@ -116,8 +116,8 @@ module Checkmark
     private
 
     def choices(correct = nil, **hash)
-      klass = Choices if hash.key?(:choices) && !hash.key?(:compactchoices)
-      klass = ShortChoices if !hash.key?(:choices) && hash.key?(:compactchoices)
+      klass = Choices if hash.key?(:choices) && !hash.key?(:shortchoices)
+      klass = ShortChoices if !hash.key?(:choices) && hash.key?(:shortchoices)
 
       raise ArgumentError, "No valid choices found: #{hash}" unless klass
 
