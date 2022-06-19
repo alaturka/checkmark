@@ -77,13 +77,10 @@ module Checkmark
 
       error('Question stem missing', context) if stem.empty?
 
-      choices = parse_choices(rest, context)
-      error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
-
-      Question.new(stem, @prev_choices = choices)
+      Question.new(stem, parse_choices(rest, context))
     end
 
-    def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity,Metrics/AbcSize
+    def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       pattern, klass = content.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
       chunks = content.split(pattern).map(&:strip!)
@@ -100,9 +97,17 @@ module Checkmark
         error("Out of order choice: expected choice #{expected}, got choice #{got}", context) unless expected == got
       end
 
+      new_sanitized_choices(klass, hash, context)
+    end
+
+    def new_sanitized_choices(klass, hash, context)
       klass.new(**hash).tap do |choices|
         duplicate = choices.duplicate
-        error("Duplicate choice found: #{duplicate}") if duplicate
+        error("Duplicate choice found: #{duplicate}", context) if duplicate
+
+        error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
+
+        @prev_choices = choices
       end
     end
 
