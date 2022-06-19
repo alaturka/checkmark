@@ -67,11 +67,8 @@ module Checkmark
     end
 
     def parse_question(content, context)
-      stem, rest = content.split(RE[:choice_start], 2)
+      stem, rest = content.split(RE[:choice_start], 2).map!(&:strip!)
       error('No choices found', context) unless rest
-
-      stem.strip!
-      rest.strip!
 
       error('Question stem missing', context) if stem.empty?
 
