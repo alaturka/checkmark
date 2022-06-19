@@ -2,7 +2,7 @@
 
 module Checkmark
   class Quiz
-    include ForwardableArray.new :@items
+    include ForwardableArray.(:@items)
 
     attr_reader :meta, :items
 

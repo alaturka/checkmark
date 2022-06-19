@@ -17,6 +17,10 @@ module Checkmark
       base.include InstanceMethods
     end
 
+    def self.call(...)
+      new(...)
+    end
+
     module InstanceMethods
       def add(array)
         append(*array)

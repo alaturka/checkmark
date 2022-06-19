@@ -2,7 +2,7 @@
 
 module Checkmark
   class Item
-    include ForwardableArray.new :@questions
+    include ForwardableArray.(:@questions)
 
     attr_reader :text, :questions
 
