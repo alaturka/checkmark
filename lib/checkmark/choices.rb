@@ -40,5 +40,5 @@ module Checkmark
     end
   end
 
-  CompactChoices = Class.new Choices
+  ShortChoices = Class.new Choices
 end

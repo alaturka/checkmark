@@ -53,7 +53,7 @@ module Checkmark
     end
   end
 
-  class CompactChoicesTest < ChoicesTest
-    Klass = CompactChoices
+  class ShortChoicesTest < ChoicesTest
+    Klass = ShortChoices
   end
 end

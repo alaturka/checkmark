@@ -117,7 +117,7 @@ module Checkmark
 
     def choices(correct = nil, **hash)
       klass = Choices if hash.key?(:choices) && !hash.key?(:compactchoices)
-      klass = CompactChoices if !hash.key?(:choices) && hash.key?(:compactchoices)
+      klass = ShortChoices if !hash.key?(:choices) && hash.key?(:compactchoices)
 
       raise ArgumentError, "No valid choices found: #{hash}" unless klass
 
