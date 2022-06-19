@@ -89,7 +89,6 @@ module Checkmark
 
       until chunks.empty?
         hash[labels.shift.to_sym] = chunks.shift.strip
-
         break if labels.empty? || chunks.empty?
 
         expected, got = labels.first, chunks.shift
