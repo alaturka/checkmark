@@ -17,8 +17,8 @@ module Checkmark
       def to_s # rubocop:disable Metrics/AbcSize
         [].tap do |strings|
           strings << origin.to_s                if origin
-          strings << "Item #{item + 1}"         if item && nitem.positive?
-          strings << "Question #{question + 1}" if question && nquestion.positive?
+          strings << "Item #{item + 1}"         if item && nitem > 1
+          strings << "Question #{question + 1}" if question && nquestion > 1
         end.join ': '
       end
     end
