@@ -13,7 +13,11 @@ module Checkmark
 
     Error = Class.new Error
 
-    Context = Struct.new :origin, :item, :question, :choice, keyword_init: true
+    Context = Struct.new :origin, :item, :question, :choice, keyword_init: true do
+      def to_s
+        [origin, item, question, choice].compact.join ': '
+      end
+    end
 
     attr_reader :raw, :options
 
@@ -80,8 +84,8 @@ module Checkmark
       klass.new(**hash)
     end
 
-    def error(message)
-      raise Error, message
+    def error(message, context)
+      raise Error, "#{context}: #{message}"
     end
   end
 end
