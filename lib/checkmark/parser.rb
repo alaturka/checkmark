@@ -40,26 +40,32 @@ module Checkmark
 
     # TODO: Handle errors
 
-    def parse_quiz(content)
+    def parse_quiz(content) # rubocop:disable Metrics/AbcSize
       context = Context.new(origin: options[:origin])
 
       iter = content.strip!.split(RE[:item_sep]).each_with_index
       context.nitems = iter.size
 
       items = iter.map do |chunk, i|
+        error('Empty item', context) if chunk.strip!.empty?
+
         parse_item(chunk, context.tap { |c| c.item = i })
       end
 
       Quiz.new({}, items)
     end
 
-    def parse_item(content, context)
-      text, *rest = content.strip!.split(RE[:question_sep])
+    def parse_item(content, context) # rubocop:disable Metrics/AbcSize
+      text, *rest = content.split(RE[:question_sep])
+
+      error('Item text missing', context) if text.strip!.empty?
 
       iter = rest.each_with_index
       context.nquestions = iter.size
 
       questions = iter.map do |chunk, i|
+        error('Empty question', context) if chunk.strip!.empty?
+
         parse_question(chunk, context.tap { |c| c.question = i })
       end
 
@@ -72,6 +78,8 @@ module Checkmark
 
       stem.strip!
       rest.strip!
+
+      error('Question stem missing', context) if stem.empty?
 
       choices = parse_choices(rest, context)
       error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
@@ -96,7 +104,10 @@ module Checkmark
         error("Out of order choice: expected choice #{expected}, got choice #{got}", context) unless expected == got
       end
 
-      klass.new(**hash)
+      klass.new(**hash).tap do |choices|
+        duplicate = choices.duplicate
+        error("Duplicate choice found: #{duplicate}") if duplicate
+      end
     end
 
     def error(message, context)

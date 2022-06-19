@@ -35,6 +35,10 @@ module Checkmark
 
     alias each_choice each_value
 
+    def duplicate
+      values.detect { |e| values.count(e) > 1 }
+    end
+
     def self.[](...)
       new(...)
     end
