@@ -2,16 +2,18 @@
 
 module Checkmark
   class Parser
-    ITEM_SEP_PATTERN      = /^===+$/x
-    QUESTION_SEP_PATTERN  = /^---+$/x
-
-    CHOICE_LETTER_SET     = %w[A B C D E].freeze
-
-    CHOICE_START_PATTERN  = /\n[ \t]*\n#{CHOICE_LETTER_SET.first}\)\s+/x
-    CHOICE_LINE_PATTERN   = /\b([#{CHOICE_LETTER_SET[1]}-#{CHOICE_LETTER_SET.last}])\)\s+/x
-    CHOICE_BLOCK_PATTERN  = /^([#{CHOICE_LETTER_SET[1]}-#{CHOICE_LETTER_SET.last}])\)\s+/x
+    AE = %w[A B C D E].freeze
+    RE = {
+      item_sep:     /^===+$/x,
+      question_sep: /^---+$/x,
+      choice_start: /\n[ \t]*\n#{AE.first}\)\s+/x,
+      choice_line:  /\b([#{AE[1]}-#{AE.last}])\)\s+/x,
+      choice_block: /^([#{AE[1]}-#{AE.last}])\)\s+/x
+    }.freeze
 
     Error = Class.new Error
+
+    Context = Struct.new :item, :question, :choice, keyword_init: true
 
     attr_reader :raw, :options
 
@@ -29,45 +31,57 @@ module Checkmark
     # TODO: Handle errors
 
     def parse_quiz(content)
-      items = content.strip!.split(ITEM_SEP_PATTERN).map { |chunk| parse_item(chunk) }
+      items = content.strip!.split(RE[:item_sep]).each_with_index.map do |chunk, i|
+        parse_item(chunk, Context.new(item: i))
+      end
 
       Quiz.new({}, items)
     end
 
-    def parse_item(content)
-      text, *rest = content.strip!.split(QUESTION_SEP_PATTERN)
+    def parse_item(content, context)
+      text, *rest = content.strip!.split(RE[:question_sep])
 
-      Item.new(text, rest.map { |chunk| parse_question(chunk) })
+      questions = rest.each_with_index.map do |chunk, i|
+        parse_question(chunk, context.tap { |a| a.question = i })
+      end
+
+      Item.new(text, questions)
     end
 
-    def parse_question(content)
-      stem, rest = content.split(CHOICE_START_PATTERN, 2)
-      raise 'No choices found' unless rest
+    def parse_question(content, context)
+      stem, rest = content.split(RE[:choice_start], 2)
+      error 'No choices found' unless rest
 
       stem.strip!
       rest.strip!
 
-      Question.new(stem, parse_choices(rest))
+      Question.new(stem, parse_choices(rest, context))
     end
 
-    def parse_choices(content) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-      pattern, klass = content.include?("\n") ? [Choices, CHOICE_BLOCK_PATTERN] : [ShortChoices, CHOICE_LINE_PATTERN]
+    def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      pattern, klass = content.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
       chunks = content.split pattern
 
-      labels = CHOICE_LETTER_SET.dup
+      labels = AE.dup
       hash = {}
 
       until chunks.empty?
-        hash[labels.shift.to_sym] = chunks.shift.strip
+        hash[label = labels.shift.to_sym] = chunks.shift.strip
+        context.choice = label
+
         break if labels.empty? || chunks.empty?
 
         expected, got = labels.first, chunks.shift
 
-        raise Error, "Out of order choice: expected choice #{expected}, got choice #{got}" unless expected == got
+        error "Out of order choice: expected choice #{expected}, got choice #{got}" unless expected == got
       end
 
       klass.new(**hash)
+    end
+
+    def error(message)
+      raise Error, message
     end
   end
 end
