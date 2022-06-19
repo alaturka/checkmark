@@ -13,14 +13,13 @@ module Checkmark
 
     Error = Class.new Error
 
-    Context = Struct.new :origin, :item, :nitem, :question, :nquestion, :choice, keyword_init: true do
+    Context = Struct.new :origin, :item, :nitem, :question, :nquestion, keyword_init: true do
       def to_s # rubocop:disable Metrics/AbcSize
         strings = []
 
         strings << origin.to_s                if origin
         strings << "Item #{item + 1}"         if item && nitem.positive?
         strings << "Question #{question + 1}" if question && nquestion.positive?
-        strings << "Choice #{choice}"         if choice
 
         strings.join ': '
       end
@@ -74,7 +73,10 @@ module Checkmark
       stem.strip!
       rest.strip!
 
-      Question.new(stem, parse_choices(rest, context))
+      choices = parse_choices(rest, context)
+      error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
+
+      Question.new(stem, @prev_choices = choices)
     end
 
     def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -86,14 +88,13 @@ module Checkmark
       hash = {}
 
       until chunks.empty?
-        hash[label = labels.shift.to_sym] = chunks.shift.strip
-        context.choice = label
+        hash[labels.shift.to_sym] = chunks.shift.strip
 
         break if labels.empty? || chunks.empty?
 
         expected, got = labels.first, chunks.shift
 
-        error "Out of order choice: expected choice #{expected}, got choice #{got}" unless expected == got
+        error("Out of order choice: expected choice #{expected}, got choice #{got}", context) unless expected == got
       end
 
       klass.new(**hash)
