@@ -33,16 +33,12 @@ module Checkmark
     end
 
     def call
-      parse_quiz(raw)
+      parse_quiz(raw, Context.new(origin: options[:origin]))
     end
 
     private
 
-    # TODO: Handle errors
-
-    def parse_quiz(content) # rubocop:disable Metrics/AbcSize
-      context = Context.new(origin: options[:origin])
-
+    def parse_quiz(content, context)
       iter = content.split(RE[:item_sep]).map!(&:strip!).each_with_index
       context.nitems = iter.size
 
