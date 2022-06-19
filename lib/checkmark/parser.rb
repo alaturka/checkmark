@@ -15,13 +15,11 @@ module Checkmark
 
     Context = Struct.new :origin, :item, :nitem, :question, :nquestion, keyword_init: true do
       def to_s # rubocop:disable Metrics/AbcSize
-        strings = []
-
-        strings << origin.to_s                if origin
-        strings << "Item #{item + 1}"         if item && nitem.positive?
-        strings << "Question #{question + 1}" if question && nquestion.positive?
-
-        strings.join ': '
+        [].tap do |strings|
+          strings << origin.to_s                if origin
+          strings << "Item #{item + 1}"         if item && nitem.positive?
+          strings << "Question #{question + 1}" if question && nquestion.positive?
+        end.join ': '
       end
     end
 
