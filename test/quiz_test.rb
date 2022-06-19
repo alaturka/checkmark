@@ -89,37 +89,56 @@ module Checkmark
               }
             }
           ]
+        },
+        {
+          questions: [
+            {
+              stem:           'question 6',
+              compactchoices: { A: 'q6 A', B: 'q6 B', C: 'q6 C', D: 'q6 D', E: 'q6 E' }
+            }
+          ]
         }
       ]
     }.freeze
 
-    def quiz
+    def test_construction
+      quiz(TESTDATA)
+    end
+
+    def test_forwardable
+      assert_equal(TESTDATA[:items].size, quiz(TESTDATA).size)
+    end
+
+    def test_shuffle
+      quiz(TESTDATA).shuffle!
+    end
+
+    private
+
+    def choices(correct = nil, **hash)
+      klass = Choices if hash.key?(:choices) && !hash.key?(:compactchoices)
+      klass = CompactChoices if !hash.key?(:choices) && hash.key?(:compactchoices)
+
+      raise ArgumentError, "No valid choices found: #{hash}" unless klass
+
+      klass.new(correct, **hash)
+    end
+
+    def quiz(testdata)
       Quiz.new(
-        TESTDATA[:meta],
-        TESTDATA[:items].map do |item_hash|
+        testdata[:meta],
+        testdata[:items].map do |item_hash|
           Item.new(
             item_hash[:text],
             item_hash[:questions].map do |question_hash|
               Question.new(
                 question_hash[:stem],
-                Choices[**question_hash[:choices]]
+                choices(**question_hash)
               )
             end
           )
         end
       )
-    end
-
-    def test_construction
-      quiz
-    end
-
-    def test_forwardable
-      assert_equal(TESTDATA[:items].size, quiz.size)
-    end
-
-    def test_shuffle
-      quiz.shuffle!
     end
   end
 end

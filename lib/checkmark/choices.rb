@@ -39,4 +39,6 @@ module Checkmark
       new(...)
     end
   end
+
+  CompactChoices = Class.new Choices
 end
