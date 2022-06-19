@@ -12,7 +12,8 @@ module Checkmark
       Dir[File.join(__dir__, 'cli/*.rb')].each { |command| require command }
 
       register 'compile', Compile, aliases: ['c']
-      register 'export',  Export,  aliases: ['x']
+      register 'export',  Export,  aliases: ['e']
+      register 'import',  Import,  aliases: ['i']
       register 'lint',    Lint,    aliases: ['l']
       register 'version', Version, aliases: ['v', '-v', '--version']
     end
