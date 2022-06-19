@@ -68,7 +68,7 @@ module Checkmark
 
     def parse_question(content, context)
       stem, rest = content.split(RE[:choice_start], 2)
-      error 'No choices found' unless rest
+      error('No choices found', context) unless rest
 
       stem.strip!
       rest.strip!
