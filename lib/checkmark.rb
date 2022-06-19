@@ -11,4 +11,4 @@ require_relative 'checkmark/quiz'
 
 require_relative 'checkmark/parser'
 require_relative 'checkmark/loader'
-require_relative 'checkmark/render'
+require_relative 'checkmark/renderer'
