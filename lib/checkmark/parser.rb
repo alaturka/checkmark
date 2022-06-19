@@ -20,6 +20,10 @@ module Checkmark
       @options = options
     end
 
+    def call
+      parse_quiz(raw)
+    end
+
     private
 
     # TODO: Handle errors
