@@ -43,11 +43,11 @@ module Checkmark
     def parse_quiz(content) # rubocop:disable Metrics/AbcSize
       context = Context.new(origin: options[:origin])
 
-      iter = content.strip!.split(RE[:item_sep]).each_with_index
+      iter = content.split(RE[:item_sep]).map!(&:strip!).each_with_index
       context.nitems = iter.size
 
       items = iter.map do |chunk, i|
-        error('Empty item', context) if chunk.strip!.empty?
+        error('Empty item', context) if chunk.empty?
 
         parse_item(chunk, context.tap { |c| c.item = i })
       end
@@ -60,11 +60,11 @@ module Checkmark
 
       error('Item text missing', context) if text.strip!.empty?
 
-      iter = rest.each_with_index
+      iter = rest.map!(&:strip!).each_with_index
       context.nquestions = iter.size
 
       questions = iter.map do |chunk, i|
-        error('Empty question', context) if chunk.strip!.empty?
+        error('Empty question', context) if chunk.empty?
 
         parse_question(chunk, context.tap { |c| c.question = i })
       end
@@ -87,16 +87,16 @@ module Checkmark
       Question.new(stem, @prev_choices = choices)
     end
 
-    def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity,Metrics/AbcSize
       pattern, klass = content.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
-      chunks = content.split pattern
+      chunks = content.split(pattern).map(&:strip!)
 
       labels = AE.dup
       hash = {}
 
       until chunks.empty?
-        hash[labels.shift.to_sym] = chunks.shift.strip
+        hash[labels.shift.to_sym] = chunks.shift
         break if labels.empty? || chunks.empty?
 
         expected, got = labels.first, chunks.shift
