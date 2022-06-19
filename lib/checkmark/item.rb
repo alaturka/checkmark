@@ -12,8 +12,7 @@ module Checkmark
     end
 
     def shuffle!
-      questions.shuffle!
-      tap { questions.each(&:shuffle!) }
+      tap { questions.shuffle!.each(&:shuffle!) }
     end
   end
 end
