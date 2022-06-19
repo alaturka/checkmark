@@ -13,9 +13,16 @@ module Checkmark
 
     Error = Class.new Error
 
-    Context = Struct.new :origin, :item, :question, :choice, keyword_init: true do
-      def to_s
-        [origin, item, question, choice].compact.join ': '
+    Context = Struct.new :origin, :item, :nitem, :question, :nquestion, :choice, keyword_init: true do
+      def to_s # rubocop:disable Metrics/AbcSize
+        strings = []
+
+        strings << origin.to_s                if origin
+        strings << "Item #{item + 1}"         if item && nitem.positive?
+        strings << "Question #{question + 1}" if question && nquestion.positive?
+        strings << "Choice #{choice}"         if choice
+
+        strings.join ': '
       end
     end
 
@@ -35,8 +42,13 @@ module Checkmark
     # TODO: Handle errors
 
     def parse_quiz(content)
-      items = content.strip!.split(RE[:item_sep]).each_with_index.map do |chunk, i|
-        parse_item(chunk, Context.new(origin: options[:origin], item: i))
+      context = Context.new(origin: options[:origin])
+
+      iter = content.strip!.split(RE[:item_sep]).each_with_index
+      context.nitems = iter.size
+
+      items = iter.map do |chunk, i|
+        parse_item(chunk, context.tap { |c| c.item = i })
       end
 
       Quiz.new({}, items)
@@ -45,8 +57,11 @@ module Checkmark
     def parse_item(content, context)
       text, *rest = content.strip!.split(RE[:question_sep])
 
-      questions = rest.each_with_index.map do |chunk, i|
-        parse_question(chunk, context.tap { |a| a.question = i })
+      iter = rest.each_with_index
+      context.nquestions = iter.size
+
+      questions = iter.map do |chunk, i|
+        parse_question(chunk, context.tap { |c| c.question = i })
       end
 
       Item.new(text, questions)
@@ -85,7 +100,7 @@ module Checkmark
     end
 
     def error(message, context)
-      raise Error, "#{context}: #{message}"
+      raise Error, context.to_s.empty? ? message : "#{context}: #{message}"
     end
   end
 end
