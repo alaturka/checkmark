@@ -51,4 +51,22 @@ module Checkmark
       end
     end
   end
+
+  class CompactChoicesTest < Minitest::Test
+    TESTDATA = { A: 'first', B: 'second', C: 'third', D: 'fourth', E: 'fifth' }.freeze
+
+    def test_construction_implicit
+      choices = CompactChoices[**TESTDATA]
+
+      assert_equal(:A, choices.correct)
+      assert_equal('first', choices.correct_choice)
+    end
+
+    def test_construction_explicit
+      choices = CompactChoices[:C, **TESTDATA]
+
+      assert_equal(:C, choices.correct)
+      assert_equal('third', choices.correct_choice)
+    end
+  end
 end
