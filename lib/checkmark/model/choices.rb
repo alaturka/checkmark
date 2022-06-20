@@ -2,7 +2,7 @@
 
 require 'delegate'
 
-module Checkmark
+class Checkmark
   class Choices < DelegateClass(::Hash)
     attr_reader :correct
 

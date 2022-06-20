@@ -2,13 +2,15 @@
 
 require 'optparse'
 
-module Checkmark
+require 'checkmark'
+
+class Checkmark
   module CLI
     def self.call(*argv, **kwargs)
       options = {}.merge(kwargs)
       args setup(argv, options), argv
 
-      Checkmark.(content, options, from: from, to: to)
+      Checkmark.(content, type: stype)
     rescue OptionParser::InvalidOption, Error => e
       abort(e.message)
     end

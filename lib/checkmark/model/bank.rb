@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Checkmark
-  class Quiz
+class Checkmark
+  class Bank
     include ForwardableArray.(:@items)
 
     attr_reader :meta, :items

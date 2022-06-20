@@ -2,7 +2,7 @@
 
 require 'forwardable'
 
-module Checkmark
+class Checkmark
   class ForwardableArray < Module
     def initialize(forwardable, *extra_methods)
       super()

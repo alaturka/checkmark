@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative './test_helper'
+require_relative '../test_helper'
 
-module Checkmark
-  class QuizTest < Minitest::Test
+class Checkmark
+  class BankTest < Minitest::Test
     TESTDATA = {
       meta:  {
         title: 'Title'
@@ -102,15 +102,15 @@ module Checkmark
     }.freeze
 
     def test_construction
-      quiz(TESTDATA)
+      bank(TESTDATA)
     end
 
     def test_forwardable
-      assert_equal(TESTDATA[:items].size, quiz(TESTDATA).size)
+      assert_equal(TESTDATA[:items].size, bank(TESTDATA).size)
     end
 
     def test_shuffle
-      quiz(TESTDATA).shuffle!
+      bank(TESTDATA).shuffle!
     end
 
     private
@@ -124,8 +124,8 @@ module Checkmark
       klass.new(correct, **hash)
     end
 
-    def quiz(testdata)
-      Quiz.new(
+    def bank(testdata)
+      Bank.new(
         testdata[:meta],
         testdata[:items].map do |item_hash|
           Item.new(

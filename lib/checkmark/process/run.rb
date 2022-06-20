@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Checkmark
+class Checkmark
   module Process
   end
 end

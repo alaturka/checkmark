@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Checkmark
+class Checkmark
   module Read
     class MD
       AE = %w[A B C D E].freeze

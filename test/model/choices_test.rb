@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative './test_helper'
+require_relative '../test_helper'
 
-module Checkmark
+class Checkmark
   class ChoicesTest < Minitest::Test
     TESTDATA = { A: 'first', B: 'second', C: 'third', D: 'fourth', E: 'fifth' }.freeze
     Klass = Choices
