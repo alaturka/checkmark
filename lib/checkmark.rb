@@ -9,6 +9,6 @@ require_relative 'checkmark/question'
 require_relative 'checkmark/item'
 require_relative 'checkmark/quiz'
 
-require_relative 'checkmark/plugin'
+require_relative 'checkmark/processor'
 require_relative 'checkmark/reader'
 require_relative 'checkmark/writer'
