@@ -4,7 +4,7 @@
 require 'checkmark/cli'
 
 def main
-  Dry::CLI.new(Checkmark::CLI::Commands).call
+  Checkmark::CLI.call
 rescue Checkmark::Error => e
   abort e.message
 end
