@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Reader
-    class Markdown
+  module Read
+    class MD
       AE = %w[A B C D E].freeze
       RE = {
         item_sep:     /^===+$/x,

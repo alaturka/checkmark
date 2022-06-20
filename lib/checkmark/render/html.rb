@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Writer
+  module Render
   end
 end
