@@ -11,8 +11,8 @@ class Checkmark
       @settings = settings
     end
 
-    def self.from_files(type, *paths, **settings)
-      new(*paths.map { Content.read(type, _1) }, **settings)
+    def self.from_files(handler, *paths, **settings)
+      new(*paths.map { Content.read(handler, _1) }, **settings)
     end
   end
 end
