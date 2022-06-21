@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Checkmark
+  # TODO: Move to support?
+
   File = Struct.new :path, :type, keyword_init: true do
     def content
       path ? File.read(path) : $stdin.read
