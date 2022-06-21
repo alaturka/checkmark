@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'delegate'
 require 'forwardable'
 
 class Checkmark
@@ -25,6 +26,35 @@ class Checkmark
       def add(array)
         append(*array)
       end
+    end
+  end
+
+  class Content < DelegateClass(::String)
+    attr_reader :type, :path
+
+    def initialize(type, path = nil)
+      super(::String.new)
+
+      @type = type.to_sym
+      @path = path
+    end
+
+    def read
+      replace (path ? File : $stdin).read
+      self
+    end
+
+    def write
+      path ? File.write(path, self) : puts(self)
+      self
+    end
+
+    def self.read(type, path = nil)
+      new(type, path).read
+    end
+
+    def self.write(type, path = nil)
+      new(type, path).write
     end
   end
 end
