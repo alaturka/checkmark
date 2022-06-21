@@ -27,7 +27,7 @@ class Checkmark
       end
 
       def call
-        parse_quiz(@content, Context.new(origin: @content.is_a?(Content) ? @content.path : nil))
+        parse_quiz(@content, Context.new(origin: @content.is_a?(Content) ? @content.origin : nil))
       end
 
       private

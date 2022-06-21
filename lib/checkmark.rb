@@ -6,38 +6,39 @@ require_relative 'checkmark/version'
 
 require_relative 'checkmark/model'
 require_relative 'checkmark/process'
-require_relative 'checkmark/quiz'
 require_relative 'checkmark/read'
 require_relative 'checkmark/render'
 require_relative 'checkmark/write'
 
 class Checkmark
-  attr_reader :quiz
+  attr_reader :source, :reader, :processors, :settings, :banks
 
-  def initialize(quiz)
-    @quiz = quiz
+  def initialize(source, reader:, processors: [], settings: {})
+    @source     = source
+    @reader     = reader
+    @processors = processors
+    @settings   = settings
 
-    setup
+    load
   end
 
-  def call
-    bank = read.()
-    render.(bank)
-    process.(bank)
-    banks = emit(bank)
-    write.(banks)
+  def perform(writer)
+    writer.(banks)
   end
 
   private
 
-  def setup
-    @reader = nil
-    @renderer = nil
-    @processors = []
-    @writer = nil
+  def load
+    @banks = emit reader.(source) # FIXME: processors
   end
 
   def emit(bank)
     [bank]
+  end
+
+  class << self
+    def from_file(file, **kwargs)
+      new(Content.(file), reader: Read.handler!(file), **kwargs)
+    end
   end
 end

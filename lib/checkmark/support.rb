@@ -29,6 +29,24 @@ class Checkmark
     end
   end
 
+  class Content < DelegateClass(::String)
+    attr_reader :origin
+
+    def initialize(string = '', origin: nil)
+      super(::String.new(string))
+
+      @origin = origin
+    end
+
+    def self.read(file)
+      new(File.read(file), origin: file)
+    end
+
+    def self.call(...)
+      read(...)
+    end
+  end
+
   class Registerable < Module
     attr_reader :consumer
 
@@ -56,7 +74,9 @@ class Checkmark
 
     module ClassMethods
       def register(symbol, klass = nil)
-        registery[symbol.to_sym] = klass || self
+        registery[type = symbol.to_sym] = klass || self
+        singleton_class.attr_reader :type
+        instance_variable_set(:@type, type)
       end
     end
 
@@ -68,35 +88,16 @@ class Checkmark
       def availables
         registery.keys
       end
-    end
-  end
 
-  class Content < DelegateClass(::String)
-    attr_reader :type, :path
+      def handler!(file)
+        key = File.extname.strip.downcase[1..]
+        raise Error, "No extension found for file: #{file}" unless key
 
-    def initialize(type, path = nil)
-      super(::String.new)
+        key = key.to_sym
+        raise Error, "Unsupported file type: #{key}" unless registery.key?(key)
 
-      @type = type.to_sym
-      @path = path
-    end
-
-    def read
-      replace (path ? File : $stdin).read
-      self
-    end
-
-    def write
-      path ? File.write(path, self) : puts(self)
-      self
-    end
-
-    def self.read(type, path = nil)
-      new(type, path).read
-    end
-
-    def self.write(type, path = nil)
-      new(type, path).write
+        registery[key]
+      end
     end
   end
 end

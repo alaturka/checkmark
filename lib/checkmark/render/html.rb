@@ -3,7 +3,7 @@
 class Checkmark
   module Render
     class HTML < Base
-      register :html
+      def call; end
     end
   end
 end

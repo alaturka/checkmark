@@ -3,7 +3,9 @@
 class Checkmark
   module Render
     class Base
-      extend Registerable[Render]
+      def initialize
+        raise NotImplementedError
+      end
     end
 
     require_relative 'render/html'

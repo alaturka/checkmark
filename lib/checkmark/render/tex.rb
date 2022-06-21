@@ -3,7 +3,7 @@
 class Checkmark
   module Render
     class TeX < Base
-      register :tex
+      def call; end
     end
   end
 end
