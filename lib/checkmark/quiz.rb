@@ -1,16 +1,34 @@
 # frozen_string_literal: true
 
 class Checkmark
+  File = Struct.new :path, :type, keyword_init: true do
+    def content
+      path ? File.read(path) : $stdin.read
+    end
+
+    alias_method :origin, :path
+  end
+
+  def self.file!(path:, type:)
+    raise Error, "No such file: #{path}" if path && !::File.exist?(path)
+
+    File.new(path: path, type: type)
+  end
+
+  # TODO: Improve interface
+
   class Quiz
-    DEFAULT_TYPE = :md
+    attr_reader :content, :file, :settings
 
-    attr_reader :content, :type, :settings
-
-    def initialize(content, type: DEFAULT_TYPE, origin: nil, settings: {})
+    def initialize(content, file, **settings)
       @content = content
-      @type = type
-      @origin = origin
+      @file = file
       @settings = settings
+    end
+
+    def self.from_file(path:, type:, settings:)
+      file = Checkmark.file!(path: path, type: type)
+      new(file.content, file, **settings)
     end
   end
 end
