@@ -30,21 +30,13 @@ class Checkmark
   end
 
   class Content < DelegateClass(::String)
-    attr_reader :handler, :path
+    attr_reader :type, :path
 
-    def initialize(handler, path = nil)
+    def initialize(type, path = nil)
       super(::String.new)
 
-      @handler = handler.to_sym
+      @type = type.to_sym
       @path = path
-    end
-
-    def type
-      handler.type
-    end
-
-    def handle(...)
-      handler.(self, ...)
     end
 
     def read
@@ -57,12 +49,12 @@ class Checkmark
       self
     end
 
-    def self.read(handler, path = nil)
-      new(handler, path).read
+    def self.read(type, path = nil)
+      new(type, path).read
     end
 
-    def self.write(handler, path = nil)
-      new(handler, path).write
+    def self.write(type, path = nil)
+      new(type, path).write
     end
   end
 end
