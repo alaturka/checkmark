@@ -22,7 +22,7 @@ class Checkmark
     load
   end
 
-  def perform(writer)
+  def call(writer)
     writer.(banks)
   end
 
@@ -43,7 +43,7 @@ class Checkmark
 
     def call(infile, outfile, processors: [], settings: {})
       new(Content.(infile), reader: Read.handler!(infile), processors: processors, settings: settings).tap do |instance|
-        result = instance.perform Write.handler!(outfile)
+        result = instance.(Write.handler!(outfile))
         File.write(outfile, result)
       end
     end
