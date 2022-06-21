@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Checkmark
-  # TODO: Move to support?
+  # TODO: Move to support? Content instead of File?
 
   File = Struct.new :path, :type, keyword_init: true do
     def content
