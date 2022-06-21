@@ -8,8 +8,6 @@ class Checkmark
       attr_reader :options
 
       def initialize(content, **options)
-        super()
-
         @content = content
         @options = options
       end
