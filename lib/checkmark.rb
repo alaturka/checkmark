@@ -37,8 +37,15 @@ class Checkmark
   end
 
   class << self
-    def from_file(file, **kwargs)
+    def new_from_file(file, **kwargs)
       new(Content.(file), reader: Read.handler!(file), **kwargs)
+    end
+
+    def call(infile, outfile, processors: [], settings: {})
+      new(Content.(infile), reader: Read.handler!(infile), processors: processors, settings: settings).tap do |instance|
+        result = instance.perform Write.handler!(outfile)
+        File.write(outfile, result)
+      end
     end
   end
 end
