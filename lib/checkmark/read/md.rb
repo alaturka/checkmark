@@ -24,21 +24,21 @@ class Checkmark
         end
       end
 
-      attr_reader :raw, :options
+      attr_reader :options
 
-      def initialize(raw, **options)
-        @raw = raw
+      def initialize(content, **options)
+        @content = content
         @options = options
       end
 
       def call
-        parse_quiz(raw, Context.new(origin: options[:origin]))
+        parse_quiz(@content, Context.new(origin: @content.path))
       end
 
       private
 
-      def parse_quiz(content, context)
-        iter = content.split(RE[:item_sep]).map!(&:strip!).each_with_index
+      def parse_quiz(text, context)
+        iter = text.split(RE[:item_sep]).map!(&:strip!).each_with_index
         context.nitems = iter.size
 
         items = iter.map do |chunk, i|
@@ -50,10 +50,10 @@ class Checkmark
         Quiz.new({}, items)
       end
 
-      def parse_item(content, context) # rubocop:disable Metrics/AbcSize
-        text, *rest = content.split(RE[:question_sep])
+      def parse_item(text, context) # rubocop:disable Metrics/AbcSize
+        body, *rest = text.split(RE[:question_sep])
 
-        error('Item text missing', context) if text.strip!.empty?
+        error('Item body missing', context) if body.strip!.empty?
 
         iter = rest.map!(&:strip!).each_with_index
         context.nquestions = iter.size
@@ -64,11 +64,11 @@ class Checkmark
           parse_question(chunk, context.tap { _1.question = i })
         end
 
-        Item.new(text, questions)
+        Item.new(body, questions)
       end
 
-      def parse_question(content, context)
-        stem, rest = content.split(RE[:choice_start], 2).map!(&:strip!)
+      def parse_question(text, context)
+        stem, rest = text.split(RE[:choice_start], 2).map!(&:strip!)
 
         error('Question stem missing', context) if stem.empty?
         error('No choices found', context) unless rest
@@ -76,10 +76,10 @@ class Checkmark
         Question.new(stem, parse_choices(rest, context))
       end
 
-      def parse_choices(content, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-        pattern, klass = content.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
+      def parse_choices(text, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+        pattern, klass = text.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
-        chunks = content.split(pattern).map(&:strip!)
+        chunks = text.split(pattern).map(&:strip!)
 
         labels = AE.dup
         hash = {}
