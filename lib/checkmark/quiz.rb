@@ -5,7 +5,7 @@ class Checkmark
 
   File = Struct.new :path, :type, keyword_init: true do
     def content
-      path ? File.read(path) : $stdin.read
+      @content ||= path ? File.read(path) : $stdin.read
     end
 
     alias_method :origin, :path
