@@ -10,7 +10,7 @@ class Checkmark
       options = {}.merge(kwargs)
       args setup(argv, options), argv
 
-      Checkmark.(content, type: stype)
+      Checkmark.() # TODO: implememt
     rescue OptionParser::InvalidOption, Error => e
       abort(e.message)
     end
