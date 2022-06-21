@@ -6,6 +6,7 @@ require_relative 'checkmark/version'
 
 require_relative 'checkmark/model'
 require_relative 'checkmark/process'
+require_relative 'checkmark/quiz'
 require_relative 'checkmark/read'
 require_relative 'checkmark/render'
 require_relative 'checkmark/write'
