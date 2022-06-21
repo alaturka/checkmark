@@ -1,3 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'process/run'
+class Checkmark
+  module Process
+    class Base
+      extend Registerable[Process]
+    end
+
+    require_relative 'process/run'
+  end
+end

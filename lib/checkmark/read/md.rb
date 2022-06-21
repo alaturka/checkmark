@@ -2,7 +2,9 @@
 
 class Checkmark
   module Read
-    class MD
+    class MD < Base
+      register :md
+
       AE = %w[A B C D E].freeze
       RE = {
         item_sep:     /^===+$/x,
@@ -22,13 +24,6 @@ class Checkmark
             strings << "Question #{question + 1}" if question && nquestion > 1
           end.join ': '
         end
-      end
-
-      attr_reader :options
-
-      def initialize(content, **options)
-        @content = content
-        @options = options
       end
 
       def call

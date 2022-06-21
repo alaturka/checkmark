@@ -29,6 +29,48 @@ class Checkmark
     end
   end
 
+  class Registerable < Module
+    attr_reader :consumer
+
+    def initialize(consumer)
+      super()
+
+      @consumer = consumer
+
+      @consumer.instance_variable_set(:@registery, {})
+      @consumer.singleton_class.attr_reader :registery
+
+      @consumer.extend ConsumerMethods
+    end
+
+    def extended(base)
+      registery = consumer.registery
+      base.define_singleton_method(:registery) { registery }
+
+      base.extend ClassMethods
+    end
+
+    def self.[](...)
+      new(...)
+    end
+
+    module ClassMethods
+      def register(symbol, klass = nil)
+        registery[symbol.to_sym] = klass || self
+      end
+    end
+
+    module ConsumerMethods
+      def available?(key)
+        registery.key?(key)
+      end
+
+      def availables
+        registery.keys
+      end
+    end
+  end
+
   class Content < DelegateClass(::String)
     attr_reader :type, :path
 
