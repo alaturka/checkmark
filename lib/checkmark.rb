@@ -4,11 +4,11 @@ require_relative 'checkmark/support'
 require_relative 'checkmark/error'
 require_relative 'checkmark/version'
 
+require_relative 'checkmark/emit'
 require_relative 'checkmark/model'
 require_relative 'checkmark/process'
 require_relative 'checkmark/read'
 require_relative 'checkmark/render'
-require_relative 'checkmark/shuffle'
 require_relative 'checkmark/write'
 
 class Checkmark
@@ -23,8 +23,8 @@ class Checkmark
     load
   end
 
-  def call(write:, shuffle: nil)
-    write.(shuffle.(bank))
+  def call(write:, emit: nil)
+    write.(emit.(bank))
   end
 
   private

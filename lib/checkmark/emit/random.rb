@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Shuffle
+  module Emit
     class Random < Base
       register :random
     end
