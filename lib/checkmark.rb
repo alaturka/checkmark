@@ -12,11 +12,10 @@ require_relative 'checkmark/render'
 require_relative 'checkmark/write'
 
 class Checkmark
-  attr_reader :source, :settings
+  attr_reader :source
 
-  def initialize(source, **settings)
-    @source   = source
-    @settings = Settings.new settings
+  def initialize(source)
+    @source = source
   end
 
   def call(reader:, writer:, processors: EMPTY_ARRAY, emitter: nil)
@@ -56,8 +55,8 @@ class Checkmark
       emitter    = emitter(emit, settings.for(:emit)) if emit
       processors = processors(processes, settings.for(:process))
 
-      new(Content.(infile), reader: reader, processors: processors).tap do |instance|
-        File.write(outfile, instance.(writer: writer, emitter: emitter))
+      new(Content.(infile)).tap do |instance|
+        File.write outfile, instance.(reader: reader, writer: writer, emitter: emitter, processors: processors)
       end
     end
 
