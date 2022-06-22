@@ -5,11 +5,8 @@ class Checkmark
     class Base
       extend Registerable[Read]
 
-      attr_reader :options
-
-      def initialize(content, **options)
+      def initialize(content)
         @content = content
-        @options = options
       end
     end
 
