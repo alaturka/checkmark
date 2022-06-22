@@ -2,9 +2,7 @@
 
 class Checkmark
   module Process
-    class Base
-      extend Registerable[Process]
-    end
+    Base = Extension[self]
 
     require_relative 'process/run'
   end

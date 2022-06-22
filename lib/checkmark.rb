@@ -12,29 +12,43 @@ require_relative 'checkmark/render'
 require_relative 'checkmark/write'
 
 class Checkmark
-  attr_reader :source, :read, :process, :settings, :bank
+  attr_reader :source, :reader, :processors, :settings
 
-  def initialize(source, reader:, processors: [])
+  def initialize(source, reader:, processors: EMPTY_ARRAY)
     @source     = source
     @reader     = reader
     @processors = processors
-
-    @bank       = load
   end
 
   def call(writer:, emitter: nil)
-    writer.(emitter.(bank))
+    write(writer, emit(emitter, load(source)))
   end
 
-  private
+  def read(reader, source)
+    reader.(source)
+  end
 
-  def load
-    reader.(source) # FIXME: processors
+  def process(processors, bank)
+    bank.tap { processors.each { |processor| processor.(bank) } }
+  end
+
+  def write(writer, banks)
+    writer.(banks)
+  end
+
+  def emit(emitter, bank)
+    emitter ? emitter.(bank) : [bank]
+  end
+
+  def load(source)
+    process(processors, read(reader, source))
   end
 
   class << self
-    def call(infile, outfile, emit: nil, processes: [], settings: {})
-      reader     = Read.handler_for_type(infile, settings.for(:read))
+    def call(infile, outfile, emit: nil, processes: EMPTY_ARRAY, settings: EMPTY_HASH)
+      settings   = Settings.new settings
+
+      reader     = Read.handler_for_filetype!(infile, settings.for(:read))
       writer     = Write.handler_for_filetype!(outfile, settings.for(:write))
       emitter    = Emit.handler(emit, settings.for(:emit))
       processors = processes.map { Process.handler(_1, settings.for(:process)) }
@@ -46,16 +60,24 @@ class Checkmark
 
     # rubocop:disable Naming/MethodName
     def ABCD(*args, **kwargs)
-      call(*args, **kwargs, emit: :random4)
+      call(*args, **emit_setup(kwargs, 4))
     end
 
     def AB(*args, **kwargs)
-      call(*args, **kwargs, emit: :random2)
+      call(*args, **emit_setup(kwargs, 2))
     end
 
     def A(*args, **kwargs)
-      call(*args, **kwargs, emit: :random1)
+      call(*args, **emit_setup(kwargs, 1))
     end
     # rubocop:enable Naming/MethodName
+
+    private
+
+    def emit_setup(kwargs, nbank, emit = :random)
+      kwargs[:emit] = emit
+      (kwargs[:setting][:emit] ||= {})[:nbank] = nbank
+      kwargs.freeze
+    end
   end
 end

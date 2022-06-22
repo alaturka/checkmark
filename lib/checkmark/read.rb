@@ -2,13 +2,7 @@
 
 class Checkmark
   module Read
-    class Base
-      extend Registerable[Read]
-
-      def initialize(content)
-        @content = content
-      end
-    end
+    Base = Extension[self]
 
     require_relative 'read/json'
     require_relative 'read/md'

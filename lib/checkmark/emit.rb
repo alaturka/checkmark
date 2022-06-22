@@ -2,9 +2,7 @@
 
 class Checkmark
   module Emit
-    class Base
-      extend Registerable[Emit]
-    end
+    Base = Extension[self]
 
     require_relative 'emit/random'
   end

@@ -4,6 +4,9 @@ require 'delegate'
 require 'forwardable'
 
 class Checkmark
+  EMPTY_ARRAY = [].freeze
+  EMPTY_HASH = {}.freeze
+
   class ForwardableArray < Module
     def initialize(forwardable, *extra_methods)
       super()
@@ -47,6 +50,12 @@ class Checkmark
     end
   end
 
+  class Settings < DelegateClass(::Hash)
+    def for(section)
+      self[section.to_sym] || EMPTY_HASH
+    end
+  end
+
   class Registerable < Module
     attr_reader :consumer
 
@@ -81,40 +90,42 @@ class Checkmark
     end
 
     module ConsumerMethods
-      def available?(name)
-        registery.key?(name.to_sym)
+      def available?(type)
+        registery.key?(type.to_sym)
       end
 
       def availables
         registery.keys
       end
 
-      def call(name, ...)
-        handle(name, ...).call
+      def handler!(type, ...)
+        raise Error, "No extension found: #{type}" unless registery.key?(type = type.to_sym)
+
+        registery[type].new(...)
       end
 
-      def handle(name, ...)
-        handler = handler!(name)
-
-        instance = handler.new(...)
-        block_given? ? yield(instance) : instance
-      end
-
-      def handler!(name)
-        raise Error, "No handler found: #{name}" unless registery.key?(name = name.to_sym)
-
-        registery[key]
-      end
-
-      def handler_name_for!(file)
+      def handler_for_filetype!(file, ...)
         ext = File.extname.strip.downcase[1..]
-        raise Error, "No extension found for file: #{file}" unless ext
+        raise Error, "File extension missing: #{file}" unless ext
 
-        name = ext.to_sym
-        raise Error, "Unsupported file type: #{ext}" unless available?(name)
-
-        name
+        handler!(ext, ...)
       end
+    end
+  end
+
+  class Extension
+    def self.[](modul, &block)
+      Class.new(self, &block).tap { |klass| klass.extend Registerable[modul] }
+    end
+
+    attr_reader :settings
+
+    def initialize(settings)
+      @settings = settings.dup.freeze
+    end
+
+    def call(...)
+      raise NotImplementedError
     end
   end
 end

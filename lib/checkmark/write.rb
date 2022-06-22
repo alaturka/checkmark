@@ -2,9 +2,7 @@
 
 class Checkmark
   module Write
-    class Base
-      extend Registerable[Write]
-    end
+    Base = Extension[self]
 
     require_relative 'write/html'
     require_relative 'write/json'
