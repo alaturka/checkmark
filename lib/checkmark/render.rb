@@ -2,11 +2,7 @@
 
 class Checkmark
   module Render
-    class Base
-      def initialize
-        raise NotImplementedError
-      end
-    end
+    Base = Extension[self]
 
     require_relative 'render/html'
     require_relative 'render/tex'
