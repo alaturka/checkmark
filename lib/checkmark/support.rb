@@ -81,22 +81,39 @@ class Checkmark
     end
 
     module ConsumerMethods
-      def available?(key)
-        registery.key?(key)
+      def available?(name)
+        registery.key?(name.to_sym)
       end
 
       def availables
         registery.keys
       end
 
-      def handler!(file)
-        key = File.extname.strip.downcase[1..]
-        raise Error, "No extension found for file: #{file}" unless key
+      def call(name, ...)
+        handle(name, ...).call
+      end
 
-        key = key.to_sym
-        raise Error, "Unsupported file type: #{key}" unless registery.key?(key)
+      def handle(name, ...)
+        handler = handler!(name)
+
+        instance = handler.new(...)
+        block_given? ? yield(instance) : instance
+      end
+
+      def handler!(name)
+        raise Error, "No handler found: #{name}" unless registery.key?(name = name.to_sym)
 
         registery[key]
+      end
+
+      def handler_name_for!(file)
+        ext = File.extname.strip.downcase[1..]
+        raise Error, "No extension found for file: #{file}" unless ext
+
+        name = ext.to_sym
+        raise Error, "Unsupported file type: #{ext}" unless available?(name)
+
+        name
       end
     end
   end
