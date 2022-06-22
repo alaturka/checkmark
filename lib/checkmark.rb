@@ -41,7 +41,7 @@ class Checkmark
 
   class << self
     { reader: Read, writer: Write, processor: Process, emitter: Emit }.each do |extension, modul|
-      define_method(extension) { |name, settings| modul.handler!(name).new(settings) }
+      define_method(extension) { |name, settings| modul.handler!(name, settings) }
     end
 
     def processors(names, settings)
