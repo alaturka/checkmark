@@ -38,9 +38,9 @@ class Checkmark
   end
 
   class << self
-    def call(infile, outfile, shuffle: nil, process: [], settings: {})
+    def call(infile, outfile, emit: nil, process: [], settings: {})
       new(Content.(infile), read: Read.handler!(infile), process: process, settings: settings).tap do |instance|
-        result = instance.(write: Write.handler!(outfile), shuffle: shuffle)
+        result = instance.(write: Write.handler!(outfile), emit: emit)
         File.write(outfile, result)
       end
     end
