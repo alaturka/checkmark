@@ -103,13 +103,6 @@ class Checkmark
 
         registery[type].new(...)
       end
-
-      def handler_for_filetype!(file, ...)
-        ext = File.extname.strip.downcase[1..]
-        raise Error, "File extension missing: #{file}" unless ext
-
-        handler!(ext, ...)
-      end
     end
   end
 
