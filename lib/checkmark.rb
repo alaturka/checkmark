@@ -8,28 +8,29 @@ require_relative 'checkmark/model'
 require_relative 'checkmark/process'
 require_relative 'checkmark/read'
 require_relative 'checkmark/render'
+require_relative 'checkmark/shuffle'
 require_relative 'checkmark/write'
 
 class Checkmark
-  attr_reader :source, :reader, :processors, :settings, :banks
+  attr_reader :source, :read, :process, :settings, :banks
 
-  def initialize(source, reader:, processors: [], settings: {})
-    @source     = source
-    @reader     = reader
-    @processors = processors
-    @settings   = settings
+  def initialize(source, read:, process: [], settings: {})
+    @source   = source
+    @read     = read
+    @process  = process
+    @settings = settings
 
     load
   end
 
-  def call(writer)
-    writer.(banks)
+  def call(write:, shuffle: :random)
+    write.(shuffle.(bank))
   end
 
   private
 
   def load
-    @banks = emit reader.(source) # FIXME: processors
+    @banks = emit read.(source) # FIXME: processors
   end
 
   def emit(bank)
@@ -37,13 +38,9 @@ class Checkmark
   end
 
   class << self
-    def new_from_file(file, **kwargs)
-      new(Content.(file), reader: Read.handler!(file), **kwargs)
-    end
-
-    def call(infile, outfile, processors: [], settings: {})
-      new(Content.(infile), reader: Read.handler!(infile), processors: processors, settings: settings).tap do |instance|
-        result = instance.(Write.handler!(outfile))
+    def call(infile, outfile, shuffle: :random, process: [], settings: {})
+      new(Content.(infile), read: Read.handler!(infile), process: process, settings: settings).tap do |instance|
+        result = instance.(write: Write.handler!(outfile), shuffle: shuffle)
         File.write(outfile, result)
       end
     end
