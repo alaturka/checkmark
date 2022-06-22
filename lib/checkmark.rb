@@ -12,14 +12,9 @@ require_relative 'checkmark/shuffle'
 require_relative 'checkmark/write'
 
 class Checkmark
-  DEFAULT = {
-    process: [],
-    shuffle: :random
-  }.freeze
-
   attr_reader :source, :read, :process, :settings, :banks
 
-  def initialize(source, read:, process: DEFAULT[:process], settings: {})
+  def initialize(source, read:, process: [], settings: {})
     @source   = source
     @read     = read
     @process  = process
@@ -28,7 +23,7 @@ class Checkmark
     load
   end
 
-  def call(write:, shuffle: DEFAULT[:shuffle])
+  def call(write:, shuffle: nil)
     write.(shuffle.(bank))
   end
 
@@ -43,7 +38,7 @@ class Checkmark
   end
 
   class << self
-    def call(infile, outfile, shuffle: DEFAULT[:shuffle], process: DEFAULT[:process], settings: {})
+    def call(infile, outfile, shuffle: nil, process: [], settings: {})
       new(Content.(infile), read: Read.handler!(infile), process: process, settings: settings).tap do |instance|
         result = instance.(write: Write.handler!(outfile), shuffle: shuffle)
         File.write(outfile, result)
