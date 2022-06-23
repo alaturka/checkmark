@@ -5,7 +5,7 @@ class Checkmark
     class PDF < Base
       register :pdf
 
-      def call(bank)
+      def call(bank, _outfile)
         accepted!(bank)
       end
 

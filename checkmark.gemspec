@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.0.2'
 
+  s.add_dependency 'combine_pdf'
   s.add_dependency 'kramdown'
 
   s.add_development_dependency 'bundler'

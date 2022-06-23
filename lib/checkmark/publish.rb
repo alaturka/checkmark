@@ -3,10 +3,6 @@
 class Checkmark
   module Publish
     Base = Extension[self] do
-      def publish(_outfile, _bank)
-        raise NotImplementedError
-      end
-
       def accepts
         raise NotImplementedError
       end

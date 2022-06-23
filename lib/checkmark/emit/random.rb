@@ -5,7 +5,7 @@ class Checkmark
     class Random < Base
       register :random
 
-      def call(_bank, _publisher = nil)
+      def call(_bank, _name: nil, _publisher: nil)
         nil
       end
     end

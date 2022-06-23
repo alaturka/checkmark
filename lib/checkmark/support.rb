@@ -121,4 +121,13 @@ class Checkmark
       raise NotImplementedError
     end
   end
+
+  module Support
+    module_function
+
+    def extname!(file)
+      ext = File.extname.strip.downcase[1..]
+      raise Error, "File extension missing: #{file}" unless ext
+    end
+  end
 end

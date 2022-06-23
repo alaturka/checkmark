@@ -61,35 +61,8 @@ class Checkmark
       processors = processors(processes, settings.for(:process))
 
       new(Content.(infile)).tap do |instance|
-        publisher.publish(outfile, instance.(reader: reader, writer: writer, emitter: emitter, processors: processors))
+        publisher.(instance.(reader: reader, writer: writer, emitter: emitter, processors: processors), outfile)
       end
-    end
-
-    # rubocop:disable Naming/MethodName
-    def ABCD(*args, **kwargs)
-      call(*args, **emit_setup(kwargs, 4))
-    end
-
-    def AB(*args, **kwargs)
-      call(*args, **emit_setup(kwargs, 2))
-    end
-
-    def A(*args, **kwargs)
-      call(*args, **emit_setup(kwargs, 1))
-    end
-    # rubocop:enable Naming/MethodName
-
-    private
-
-    def extname!(file)
-      ext = File.extname.strip.downcase[1..]
-      raise Error, "File extension missing: #{file}" unless ext
-    end
-
-    def emit_setup(kwargs, nbank, emit = :random)
-      kwargs[:emit] = emit
-      (kwargs[:setting][:emit] ||= {})[:nbank] = nbank
-      kwargs.freeze
     end
   end
 end
