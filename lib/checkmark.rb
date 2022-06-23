@@ -35,7 +35,7 @@ class Checkmark
     (result = self).tap { processors.each { result = result.process(_1, ...) } }
   end
 
-  def nemit(nbanks, emitter, ...)
+  def emitn(nbanks, emitter, ...)
     Array.new(nbanks).map { emit(emitter, ...) }
   end
 
