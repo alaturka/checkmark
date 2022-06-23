@@ -3,27 +3,29 @@
 require 'combine_pdf'
 
 class Checkmark
+  class << self
+    # rubocop:disable Naming/MethodName
+    def ABCD(...)
+      ABCD.(4, ...)
+    end
+
+    def AB(...)
+      ABCD.(2, ...)
+    end
+
+    def A(...)
+      ABCD.(1, ...)
+    end
+    # rubocop:enable Naming/MethodName
+  end
+
   module ABCD
+    DEFAULTS = {
+      nout:   4,
+      series: 'A'
+    }.freeze
+
     class << self
-      # rubocop:disable Naming/MethodName
-      def ABCD(...)
-        abcd(4, ...)
-      end
-
-      def AB(...)
-        abcd(2, ...)
-      end
-
-      def A(...)
-        abcd(1, ...)
-      end
-      # rubocop:enable Naming/MethodName
-
-      ABCD_DEFAULTS = {
-        nout:   4,
-        series: 'A'
-      }.freeze
-
       def call(infile, outfile = nil, **kwargs)
         settings = Settings.new kwargs.merge ABCD_DEFAULTS
 

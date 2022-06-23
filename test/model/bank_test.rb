@@ -126,7 +126,6 @@ class Checkmark
 
     def bank(testdata)
       Bank.new(
-        testdata[:meta],
         testdata[:items].map do |item_hash|
           Item.new(
             item_hash[:text],
@@ -137,7 +136,8 @@ class Checkmark
               )
             end
           )
-        end
+        end,
+        **testdata[:meta]
       )
     end
   end
