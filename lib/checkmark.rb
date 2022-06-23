@@ -39,6 +39,10 @@ class Checkmark
     Array.new(nbanks).map { emit(emitter, ...) }
   end
 
+  def to_json(...)
+    raise NotImplementedError
+  end
+
   def self.call(reader, source, settings, ...)
     new(**settings).read(reader, source, ...)
   end
