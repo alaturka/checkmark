@@ -12,57 +12,34 @@ require_relative 'checkmark/read'
 require_relative 'checkmark/write'
 
 class Checkmark
-  attr_reader :source
+  attr_reader :bank, :settings
 
-  def initialize(source)
-    @source = source
+  def initialize(bank = EMPTY_BANK, **settings)
+    @bank     = bank
+    @settings = settings
   end
 
-  def call(reader:, writer:, processors: EMPTY_ARRAY, emitter: nil)
-    write(emit(process(read(source, reader), processors), emitter, writer), writer)
+  def read(reader, ...)
+    self.class.new Read.handler!(reader, settings.for(:read)).(...), **settings
   end
 
-  def read(source, reader)
-    reader.(source)
-  end
+  { process: Process, emit: Emit, write: Write, publish: Publish }.each do |method, modul|
+    define_method(method) do |name, *args, **kwargs|
+      return self unless name
 
-  def process(bank, processors)
-    bank.tap { processors.each { |processor| processor.(bank) } }
-  end
-
-  def emit(bank, emitter, publisher = nil)
-    emitter ? emitter.(bank, publisher) : [bank]
-  end
-
-  def write(bank, writer)
-    writer.(bank)
-  end
-
-  def publish(bank, publisher)
-    publisher.(bank)
-  end
-
-  class << self
-    { reader: Read, processor: Process, emitter: Emit, writer: Write, publisher: Publish }.each do |extension, modul|
-      define_method(extension) { |name, settings| modul.handler!(name, settings) }
+      self.class.new modul.handler!(name, settings.for(method)).(bank, *args, **kwargs), **settings
     end
+  end
 
-    def processors(names, settings)
-      names.map { Process.handler(name, settings) }
-    end
+  def processes(processors, ...)
+    (result = self).tap { processors.each { result = result.process(_1, ...) } }
+  end
 
-    def call(infile, outfile, emit: nil, processes: EMPTY_ARRAY, settings: EMPTY_HASH) # rubocop:disable Metrics/AbcSize
-      settings   = Settings.new settings
+  def nemit(nbanks, emitter, ...)
+    Array.new(nbanks).map { emit(emitter, ...) }
+  end
 
-      publisher  = publisher(extname!(outfile), settings.for(:publish))
-      reader     = reader(extname!(infile), settings.for(:read))
-      writer     = writer(publisher.favour, settings.for(:write))
-      emitter    = emitter(emit, settings.for(:emit)) if emit
-      processors = processors(processes, settings.for(:process))
-
-      new(Content.(infile)).tap do |instance|
-        publisher.(instance.(reader: reader, writer: writer, emitter: emitter, processors: processors), outfile)
-      end
-    end
+  def self.call(reader, source, settings, ...)
+    new(**settings).read(reader, source, ...)
   end
 end
