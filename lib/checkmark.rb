@@ -14,7 +14,7 @@ require_relative 'checkmark/write'
 class Checkmark
   attr_reader :bank, :settings
 
-  def initialize(bank = EMPTY_BANK, **settings)
+  def initialize(bank = Bank.new, **settings)
     @bank     = bank
     @settings = settings
   end

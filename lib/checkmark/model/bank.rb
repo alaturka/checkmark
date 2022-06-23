@@ -6,7 +6,7 @@ class Checkmark
 
     attr_reader :meta, :items
 
-    def initialize(meta, items = [])
+    def initialize(items = [], **meta)
       @meta = meta
       @items = items
     end
