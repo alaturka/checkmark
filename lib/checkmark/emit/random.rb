@@ -4,6 +4,10 @@ class Checkmark
   module Emit
     class Random < Base
       register :random
+
+      def call(_bank, _publisher = nil)
+        nil
+      end
     end
   end
 end

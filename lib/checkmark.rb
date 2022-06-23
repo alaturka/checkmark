@@ -7,8 +7,8 @@ require_relative 'checkmark/version'
 require_relative 'checkmark/emit'
 require_relative 'checkmark/model'
 require_relative 'checkmark/process'
+require_relative 'checkmark/publish'
 require_relative 'checkmark/read'
-require_relative 'checkmark/render'
 require_relative 'checkmark/write'
 
 class Checkmark
@@ -18,8 +18,8 @@ class Checkmark
     @source = source
   end
 
-  def call(reader:, renderer:, writer:, processors: EMPTY_ARRAY, emitter: nil)
-    write(emit(render(process(read(source, reader), processors), renderer), emitter), writer)
+  def call(reader:, writer:, processors: EMPTY_ARRAY, emitter: nil)
+    write(emit(process(read(source, reader), processors), emitter, writer), writer)
   end
 
   def read(source, reader)
@@ -30,20 +30,20 @@ class Checkmark
     bank.tap { processors.each { |processor| processor.(bank) } }
   end
 
-  def render(bank, renderer)
-    renderer.(bank)
+  def emit(bank, emitter, publisher = nil)
+    emitter ? emitter.(bank, publisher) : [bank]
   end
 
-  def emit(bank, emitter)
-    emitter ? emitter.(bank) : [bank]
+  def write(bank, writer)
+    writer.(bank)
   end
 
-  def write(banks, writer)
-    writer.(banks)
+  def publish(bank, publisher)
+    publisher.(bank)
   end
 
   class << self
-    { reader: Read, processor: Process, renderer: Render, emitter: Emit, writer: Write }.each do |extension, modul|
+    { reader: Read, processor: Process, emitter: Emit, writer: Write, publisher: Publish }.each do |extension, modul|
       define_method(extension) { |name, settings| modul.handler!(name, settings) }
     end
 
@@ -54,15 +54,14 @@ class Checkmark
     def call(infile, outfile, emit: nil, processes: EMPTY_ARRAY, settings: EMPTY_HASH) # rubocop:disable Metrics/AbcSize
       settings   = Settings.new settings
 
+      publisher  = publisher(extname!(outfile), settings.for(:publish))
       reader     = reader(extname!(infile), settings.for(:read))
-      writer     = writer(extname!(outfile), settings.for(:write))
+      writer     = writer(publisher.favour, settings.for(:write))
       emitter    = emitter(emit, settings.for(:emit)) if emit
       processors = processors(processes, settings.for(:process))
 
-      # TODO: discuss and pdf vs tex
-
       new(Content.(infile)).tap do |instance|
-        File.write outfile, instance.(reader: reader, writer: writer, emitter: emitter, processors: processors)
+        publisher.publish(outfile, instance.(reader: reader, writer: writer, emitter: emitter, processors: processors))
       end
     end
 
