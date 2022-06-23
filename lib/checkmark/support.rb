@@ -48,10 +48,6 @@ class Checkmark
     def self.call(...)
       read(...)
     end
-
-    %i[html json md quiz tex].each do |type|
-      define_singleton_method(type) { |*args, **kwargs| new(*args, **kwargs) }
-    end
   end
 
   class Settings < DelegateClass(::Hash)
