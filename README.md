@@ -1,6 +1,6 @@
 Checkmark
 =========
 
-Multiple choices quiz generator from Markdown content.
+Toolkit to generate multiple choice quizzes from Markdown content.
 
 **WORK IN PROGRESS**
