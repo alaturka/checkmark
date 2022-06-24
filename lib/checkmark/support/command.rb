@@ -17,16 +17,8 @@ class Checkmark
         !ok?
       end
 
-      def timeout?
-        Signal.signame(status&.termsig || 0) == 'XCPU'
-      end
-
       def canceled?
         canceled
-      end
-
-      def segfaulted?
-        Signal.signame(status&.termsig || 0) == 'SEGV'
       end
 
       def command
