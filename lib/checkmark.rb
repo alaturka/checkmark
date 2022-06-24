@@ -40,6 +40,10 @@ class Checkmark
   end
 
   def self.call(reader, source, settings, ...)
-    new(**settings).read(reader, source, ...)
+    new(**settings).read(reader, source, ...).tap { |instance| yield(instance) if block_given? }
+  end
+
+  def self.read(file, settings, ...)
+    call(Support.extname!(file).to_sym, Content.(File.read(file), origin: file), settings, ...)
   end
 end

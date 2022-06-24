@@ -2,7 +2,7 @@
 
 class Checkmark
   class Item
-    include ForwardableArray.(:@questions)
+    include Arraylike.(:@questions)
 
     attr_reader :text, :questions
 

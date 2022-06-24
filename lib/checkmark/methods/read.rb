@@ -2,7 +2,7 @@
 
 class Checkmark
   module Read
-    Base = Extension[self]
+    Base = Method[self]
 
     require_relative 'read/json'
     require_relative 'read/md'

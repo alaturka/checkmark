@@ -3,22 +3,6 @@
 require 'combine_pdf'
 
 class Checkmark
-  class << self
-    # rubocop:disable Naming/MethodName
-    def ABCD(...)
-      ABCD.(4, ...)
-    end
-
-    def AB(...)
-      ABCD.(2, ...)
-    end
-
-    def A(...)
-      ABCD.(1, ...)
-    end
-    # rubocop:enable Naming/MethodName
-  end
-
   module ABCD
     DEFAULTS = {
       nout:   4,
@@ -26,25 +10,27 @@ class Checkmark
     }.freeze
 
     class << self
-      def call(infile, outfile = nil, **kwargs)
-        settings = Settings.new kwargs.merge ABCD_DEFAULTS
+      def call(infile, outfile = nil, **kwargs) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+        settings = Settings.new kwargs.merge DEFAULTS
+
+        instance = Checkmark.read(infile, settings)
+        name     = settings[:series]
+        answers  = {}
 
         pdf      = CombinePDF.new
-        name     = settings[:series]
 
         settings[:nout].times do
-          call(infile, processes: processes, settings: settings)
-          name.succ!
+          instance
+            .processes(settings[:processors] || [])
+            .write(:tex)
+            .emit(:random).tap { |this| answers[name] = this.answers }
+            .publish(:pdf, pdf, name: name.succ!)
         end
+
+        Publish::PDF.answers(answers, pdf)
 
         pdf.save outfile
       end
-    end
-
-    private
-
-    def build
-      nil
     end
   end
 end

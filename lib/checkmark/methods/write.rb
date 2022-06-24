@@ -2,7 +2,7 @@
 
 class Checkmark
   module Write
-    Base = Extension[self]
+    Base = Method[self]
 
     require_relative 'write/html'
     require_relative 'write/tex'

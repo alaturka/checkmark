@@ -2,7 +2,7 @@
 
 class Checkmark
   module Publish
-    Base = Extension[self] do
+    Base = Method[self] do
       def accepts
         raise NotImplementedError
       end

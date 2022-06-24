@@ -2,7 +2,7 @@
 
 class Checkmark
   module Emit
-    Base = Extension[self]
+    Base = Method[self]
 
     require_relative 'emit/random'
   end

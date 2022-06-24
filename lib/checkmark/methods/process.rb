@@ -2,7 +2,7 @@
 
 class Checkmark
   module Process
-    Base = Extension[self]
+    Base = Method[self]
 
     require_relative 'process/run'
   end

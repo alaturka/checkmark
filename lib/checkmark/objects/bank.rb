@@ -2,7 +2,7 @@
 
 class Checkmark
   class Bank
-    include ForwardableArray.(:@items)
+    include Arraylike.(:@items)
 
     attr_reader :meta, :items
 
