@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'combine_pdf'
-
 class Checkmark
   module ABCD
     DEFAULTS = {
@@ -17,7 +15,7 @@ class Checkmark
         name     = settings[:series]
         answers  = {}
 
-        pdf      = CombinePDF.new
+        pdf      = PDF.new
 
         settings[:nout].times do
           instance
