@@ -28,10 +28,12 @@ class Checkmark
   end
 
   def processes(processors, ...)
-    (result = self).tap { processors.each { result = result.process(_1, ...) } }
+    (result = self).tap { (processors || []).each { result = result.process(_1, ...) } }
   end
 
   def emitn(nbanks, emitter, ...)
+    return [self] if !nbanks || nbanks.zero?
+
     Array.new(nbanks).map { emit(emitter, ...) }
   end
 

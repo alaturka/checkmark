@@ -21,7 +21,7 @@ class Checkmark
           instance
             .processes(settings[:processors] || [])
             .write(:tex)
-            .emit(:random).tap { |this| answers[name] = this.answers }
+            .emit(:random).tap { |this| answers[name] = this.bank.answers }
             .publish(:pdf, pdf, name: name.succ!)
         end
 
