@@ -42,7 +42,7 @@ class Checkmark
   end
 
   def self.call(reader, source, settings, ...)
-    new(**settings).read(reader, source, ...).tap { |instance| yield(instance) if block_given? }
+    new(**settings).read(reader, source, ...).tap { yield(_1) if block_given? }
   end
 
   def self.read(file, settings, ...)

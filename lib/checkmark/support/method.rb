@@ -3,7 +3,7 @@
 class Checkmark
   class Method
     def self.[](modul, &block)
-      Class.new(self, &block).tap { |klass| klass.extend Registerable[modul] }
+      Class.new(self, &block).tap { _1.extend Registerable[modul] }
     end
 
     attr_reader :settings
