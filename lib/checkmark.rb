@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'checkmark/support'
-require_relative 'checkmark/error'
+require_relative 'checkmark/errors'
 require_relative 'checkmark/version'
 
-require_relative 'checkmark/emit'
-require_relative 'checkmark/model'
-require_relative 'checkmark/process'
-require_relative 'checkmark/publish'
-require_relative 'checkmark/read'
-require_relative 'checkmark/write'
+require_relative 'checkmark/objects'
+require_relative 'checkmark/methods'
 
 class Checkmark
   attr_reader :bank, :settings

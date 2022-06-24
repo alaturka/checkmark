@@ -2,4 +2,4 @@
 
 require 'checkmark'
 
-require_relative 'abcd/app'
+require_relative 'abcd/main'
