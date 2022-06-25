@@ -41,11 +41,11 @@ class Checkmark
     raise NotImplementedError
   end
 
-  def self.call(reader, source, settings, ...)
+  def self.call(source, reader, settings, ...)
     new(**settings).read(reader, source, ...).tap { yield(_1) if block_given? }
   end
 
   def self.read(file, settings, ...)
-    call(Support.extname!(file).to_sym, Content.(File.read(file), origin: file), settings, ...)
+    call(Content.(File.read(file), Support.extname!(file).to_sym, origin: file), settings, ...)
   end
 end
