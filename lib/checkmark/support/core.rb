@@ -2,7 +2,7 @@
 
 class Checkmark
   EMPTY_ARRAY = [].freeze
-  EMPTY_HASH = {}.freeze
+  EMPTY_HASH  = {}.freeze
 
   module Support
     module_function
