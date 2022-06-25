@@ -44,7 +44,7 @@ class Checkmark
       end
 
       def handler!(type, ...)
-        raise Error, "No extension found: #{type}" unless registery.key?(type = type.to_sym)
+        raise Error, "Not a registered type: #{type}" unless registery.key?(type = type.to_sym)
 
         registery[type].new(...)
       end
