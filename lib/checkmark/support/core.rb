@@ -7,9 +7,12 @@ class Checkmark
   module Support
     module_function
 
+    def extname(file)
+      File.extname(file).strip.downcase[1..]
+    end
+
     def extname!(file)
-      ext = File.extname.strip.downcase[1..]
-      raise Error, "File extension missing: #{file}" unless ext
+      extname(file).tap { raise Error, "File extension missing: #{file}" unless _1 }
     end
   end
 end
