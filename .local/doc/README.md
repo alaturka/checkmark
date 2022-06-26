@@ -101,7 +101,7 @@ ayrılmış sorulardan oluşan biçim.
   ve buna karşı gelen meta bilgilerden oluşan bir alt sözlüktür.
 
 - Bir `Item`'daki ilk metin alanının (Grup metni veya tek sorularda soru gövdesi) başında bulunan `/^Q[1-9]*[.)] +/`
-  veya /^[1-9][0-9]*[.)] +/` ön eki soru anahtarı türetmek üzere kaydedilir ve göz ardı edilir.
+  veya `/^[1-9][0-9]*[.)] +/` ön eki soru anahtarı türetmek üzere kaydedilir ve göz ardı edilir.
 
 - Bir `Item`'da ayrıştırılan ön ekten gelen dizgi sondaki noktalama işaretleri kaldırılarak meta bilgilerdeki `items`
   sözlüğünde ilgili sorunun anahtarı olarak kullanılır.
