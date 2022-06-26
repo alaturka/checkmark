@@ -19,8 +19,8 @@ class Checkmark
     class Base
       attr_reader :context
 
-      def initialize(content)
-        @context = Context.new(origin: content.is_a?(Content) ? content.origin : nil)
+      def initialize(context = Context.new)
+        @context = context
       end
 
       private
