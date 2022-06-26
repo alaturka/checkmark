@@ -5,6 +5,7 @@ require_relative 'checkmark/errors'
 require_relative 'checkmark/version'
 
 require_relative 'checkmark/objects'
+require_relative 'checkmark/parsers'
 require_relative 'checkmark/methods'
 
 class Checkmark

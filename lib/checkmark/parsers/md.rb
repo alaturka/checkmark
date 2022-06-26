@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Read
+  module Parse
     class MD < Base
-      register :md
-
-      AE = %w[A B C D E].freeze
       RE = {
         item_sep:     /^===+$/x,
         question_sep: /^---+$/x,
@@ -14,38 +11,20 @@ class Checkmark
         choice_block: /^([#{AE[1]}-#{AE.last}])\)\s+/x
       }.freeze
 
-      Error = Class.new Error
-
-      Context = Struct.new :origin, :item, :nitem, :question, :nquestion, keyword_init: true do
-        def to_s # rubocop:disable Metrics/AbcSize
-          [].tap do |strings|
-            strings << origin.to_s                if origin
-            strings << "Item #{item + 1}"         if item && nitem > 1
-            strings << "Question #{question + 1}" if question && nquestion > 1
-          end.join ': '
-        end
-      end
-
-      def call(content)
-        parse_quiz(content, Context.new(origin: content.is_a?(Content) ? content.origin : nil))
-      end
-
-      private
-
-      def parse_quiz(text, context)
+      def bank(text) # rubocop:disable Metrics/AbcSize
         iter = text.split(RE[:item_sep]).map!(&:strip!).each_with_index
         context.nitems = iter.size
 
         items = iter.map do |chunk, i|
           error('Empty item', context) if chunk.empty?
 
-          parse_item(chunk, context.tap { _1.item = i })
+          item(chunk, context.tap { _1.item = i })
         end
 
-        Quiz.new({}, items)
+        Bank.new({}, items)
       end
 
-      def parse_item(text, context) # rubocop:disable Metrics/AbcSize
+      def item(text) # rubocop:disable Metrics/AbcSize
         body, *rest = text.split(RE[:question_sep])
 
         error('Item body missing', context) if body.strip!.empty?
@@ -62,16 +41,16 @@ class Checkmark
         Item.new(body, questions)
       end
 
-      def parse_question(text, context)
+      def question(text)
         stem, rest = text.split(RE[:choice_start], 2).map!(&:strip!)
 
         error('Question stem missing', context) if stem.empty?
         error('No choices found', context) unless rest
 
-        Question.new(stem, parse_choices(rest, context))
+        Question.new(stem, choices(rest, context))
       end
 
-      def parse_choices(text, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      def choices(text) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         pattern, klass = text.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
         chunks = text.split(pattern).map(&:strip!)
@@ -89,24 +68,6 @@ class Checkmark
         end
 
         new_sanitized_choices(klass, hash, context)
-      end
-
-      def new_sanitized_choices(klass, hash, context)
-        choice, = hash.detect { |_, text| text.empty? }
-        error("Empty choice: #{choice}", context) if choice
-
-        klass.new(**hash).tap do |choices|
-          duplicate = choices.duplicate
-          error("Duplicate choice found: #{duplicate}", context) if duplicate
-
-          error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
-
-          @prev_choices = choices
-        end
-      end
-
-      def error(message, context)
-        raise Error, context.to_s.empty? ? message : "#{context}: #{message}"
       end
     end
   end
