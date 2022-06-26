@@ -7,5 +7,6 @@ class Checkmark
     require_relative 'read/bank'
     require_relative 'read/item'
     require_relative 'read/quiz'
+    require_relative 'read/quizinline'
   end
 end
