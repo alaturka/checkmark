@@ -230,8 +230,8 @@ frontmatter'ın zorunlu olmasıdır.
 
 ### `Quiz`
 
-Zorunlu YAML frontmatter ve `Item` referanslarından oluşan sınav dosyası.  Bu biçim "Inline `Quiz`"'e dönüştürülecek bir
-biçimdir.
+Zorunlu YAML frontmatter ve `Item` referanslarından oluşan sınav dosyası.  "Inline `Quiz`"'le benzer olan bu biçimde
+`Item`'lar açık şekilde yazılmak yerine dosya referanslarıyla girilir.
 
 - Öntanımlı olarak `.quiz` uzantılı dosyalarda tutulur.
 
