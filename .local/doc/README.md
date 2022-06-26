@@ -29,7 +29,7 @@ ayrılmış sorulardan oluşan biçim.
 
 - Öntanımlı olarak `.md` uzantılı veya uzantısız dosyalarda tutulur.
 
-- frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak kaydedilir.
+- Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak kaydedilir.
 
 - Meta bilgiler isteğe bağlıdır ve içeriğiyle ilgilenilmez.
 
