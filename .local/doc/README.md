@@ -16,7 +16,7 @@ Terminoloji
 
 - `Question`: Soru gövdesini içeren `stem` alanı ve seçenekleri taşıyan `Choices` nesnesinden oluşan nesne.
 
-- `Item`: Genellikle bir fakat bazen grup halde birden fazla sayıda `Question` içeren nesne.  Grup sorularda grup
+- `Item`: Bir veya daha fazla sayıda `Question` içeren nesne.  `Question` sayısı birden fazla ise (grup soru) grup
   açıklaması `text` alanındadır.
 
 - `Bank`: Bir veya daha fazla sayıda `Item` içeren nesne.
