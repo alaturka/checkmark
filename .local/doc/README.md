@@ -3,16 +3,14 @@ Checkmark
 
 Checkmark, çoktan seçmeli sorular ve bunlarla oluşturulan soru bankalarını modelleyen ve işleyen bir kitaplıktır.
 
-Giriş
------
-
 Checkmark'ta soru nesnelerinde bulunan tüm metin alanları Markdown biçimindedir.  Bu sayede sorular HTML, TeX gibi
 farklı biçimlerde taranabilmektedir (rendering).  Soru metinlerinde kullanılan temel biçimin Markdown olmasına ilave
 olarak Checkmark soru bankalarını ve bu bankalardan üretilen sınavları (quiz) temsil etmek için de Markdown temelli
 kolay ayrıştırılabilir bir metinsel içerik biçimi sunar.  Bu özel biçim sayesinde basit metin dosyalarıyla soru
 bankalarının ithal edilmesi veya sınavların farklı biçimlerde üretilmesi mümkün olmaktadır.
 
-### Terminoloji
+Terminoloji
+-----------
 
 - `Choices`: `A`-`E` arasındaki şıkları taşıyan sözlüğümsü nesne.
 
@@ -76,7 +74,7 @@ aşağıda örneklenmektedir:
 
 	A) Markdown biçiminde kısa şık B) şık C) şık D) şık E) şık
 
-Bu söz diziminde aşağıdaki kurallar geçerlidir:
+Söz diziminde aşağıdaki kurallar geçerlidir:
 
 - Soru gövdesi (`stem`) ile şıklar arasında en az bir boş satır bulunur.
 
@@ -96,9 +94,8 @@ Soru bankası türleri
 Checkmark'ın merkezinde soru bankası (`Bank`) nesneleri bulunur.  Bu nesneler temelde birer soru bankası olmakla beraber
 uygulamada bir bankanın nasıl yorumlanacağı kitaplık tüketicisine bırakılmıştır.  Örneğin kitaplık tüketicisi soru
 bankasını bir sınav olarak yorumlayarak farklı kitapçık türlerinde PDF kitapçıklar üretebilir.  Bu amaçla kitapçık
-üretiminde ihtiyaç duyulacak meta bilgileri "frontmatter" sözlüğünden alınır.
-
-Bununla birlikte Checkmark olağan senaryolarda sıklıkla karşılaşılabilecek durumlar için 3 farklı soru bankası türü
+üretiminde ihtiyaç duyulacak meta bilgiler "frontmatter" sözlüğünden alınır.  Bununla birlikte Checkmark olağan
+senaryolarda sıklıkla karşılaşılabilecek durumlar için 3 farklı soru bankası türü
 tanımlar.
 
 2. Çoğul: Soru bankalarının aktarımında ("import") veya soru kitapçığı üretiminde yararlı olabilecek ön tanımlı tür.
@@ -117,7 +114,7 @@ yorumlanır.
 - `Q` anahtarı tüm `Item`'lara ait genel meta bilgileri temsil eder.  Bir `Item`'ın meta bilgileri üretilirken `Item`'ın
   varsa meta bilgileri bu genel meta bilgiyle birleştirilir.
 
-Örnek 1: Basit durum
+#### Örnek 1: Basit durum
 
 	---
 	name: foo
@@ -137,7 +134,7 @@ yorumlanır.
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
 
-Örnek 2: Soru meta bilgileriyle
+#### Örnek 2: Soru meta bilgileriyle
 
 	---
 	name: foo
@@ -159,7 +156,7 @@ yorumlanır.
 
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
-Örnek 2: Genel soru meta bilgileriyle
+#### Örnek 3: Genel soru meta bilgileriyle
 
 	---
 	name: foo
@@ -180,8 +177,7 @@ yorumlanır.
 
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
-
-Örnek 3: Genel ve özel soru meta bilgileriyle
+#### Örnek 4: Genel ve özel soru meta bilgileriyle
 
 	---
 	name: foo
@@ -209,7 +205,7 @@ yorumlanır.
 Bu tür, `Item`'ların tek başına temsil edilmesi için kullanılabilir.  Tercihen `.md` uzantılı veya uzantısız dosyalarda
 tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak çoğaltılarak kaydedilir.**
 
-Örnek 1: Her şık bir paragraf
+#### Örnek 1: Her şık bir paragraf
 
 	---
 	tags: [foo, bar]
@@ -224,7 +220,7 @@ tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak ç
 	D) Wrong choice 3
 	E) Wrong choice 4
 
-Örnek 2: Şıklar tek paragraf
+#### Örnek 2: Şıklar tek paragraf
 
 	---
 	tags: [foo, bar]
@@ -235,7 +231,7 @@ tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak ç
 
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
-Örnek 3: Soru grubu
+#### Örnek 3: Soru grubu
 
 	---
 	tags: [foo, bar]
@@ -275,7 +271,7 @@ referansları dosya yolu olarak çözen gerçeklemede aşağıdaki anahtarlar ta
 Bu içerik türündeki dosyalarda YAML için `.yml`, `.yaml`, JSON için `.json` uzantıları kullanılır.  YAML için özel
 olarak `.quiz` dosya uzantısı da kullanılabilir.
 
-Örnek 1: Tüm referanslar boşluklarla ayrılmış şekilde tek dizgide
+#### Örnek 1: Tüm referanslar boşluklarla ayrılmış şekilde tek dizgide
 
 	title: C Programming Final Exam
 	date: 2022-06-21
@@ -287,7 +283,7 @@ olarak `.quiz` dosya uzantısı da kullanılabilir.
 
 	items: 25 42 19 13
 
-Örnek 2: Referans dizisiyle
+#### Örnek 2: Referans dizisiyle
 
 	---
 	title: C Programming Final Exam
