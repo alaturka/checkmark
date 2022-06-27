@@ -2,7 +2,7 @@
 
 class Checkmark
   class Loader
-    class Bank < self
+    class One < self
     end
   end
 end

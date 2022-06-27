@@ -15,8 +15,8 @@ class Checkmark
       new content, reader, **settings
     end
 
-    require_relative 'loaders/bank'
     require_relative 'loaders/coll'
-    require_relative 'loaders/item'
+    require_relative 'loaders/many'
+    require_relative 'loaders/one'
   end
 end
