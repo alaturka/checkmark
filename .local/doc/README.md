@@ -93,13 +93,12 @@ Soru bankası türleri
 
 Checkmark'ın merkezinde soru bankası (`Bank`) nesneleri bulunur.  Bu nesneler temelde birer soru bankası olmakla beraber
 uygulamada bir bankanın nasıl yorumlanacağı kitaplık tüketicisine bırakılmıştır.  Örneğin kitaplık tüketicisi soru
-bankasını bir sınav olarak yorumlayarak farklı kitapçık türlerinde PDF kitapçıklar üretebilir.  Bu amaçla kitapçık
-üretiminde ihtiyaç duyulacak meta bilgiler "frontmatter" sözlüğünden alınır.  Bununla birlikte Checkmark olağan
-senaryolarda sıklıkla karşılaşılabilecek durumlar için 3 farklı soru bankası türü
-tanımlar.
+bankasını bir sınav olarak yorumlayarak farklı PDF kitapçıklar üretebilir.  Bu amaçla kitapçık üretiminde ihtiyaç
+duyulacak meta bilgiler "frontmatter" sözlüğünden alınır.  Bununla birlikte Checkmark olağan senaryolarda sıklıkla
+karşılaşılabilecek durumlar için 3 farklı soru bankası için yararlı olabilecek işlevleri sunar.
 
-2. Çoğul: Soru bankalarının aktarımında ("import") veya soru kitapçığı üretiminde yararlı olabilecek ön tanımlı tür.
-1. Tekil: Tek bir `Item` içeren ve soruları kendi başına çözümlemekte yararlı olabilecek basit tür.
+1. Çoğul: Soru kitapçığı üretiminde veya soru bankalarının aktarımında ("import") yararlı olabilecek ön tanımlı tür.
+2. Tekil: Tek bir `Item` içeren ve soruları kendi başına çözümlemekte veya aktarmakta yararlı olabilecek basit tür.
 3. Başvuru: Seçilen `Item`'ları değil bunlara ait referansları içeren tür.
 
 ### Çoğul tür
