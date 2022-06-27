@@ -206,7 +206,7 @@ yorumlanır.
 ### "Biraz"
 
 Bu tür, `Item`'ların tek başına temsil edilmesi için kullanılabilir.  Tercihen `.md` uzantılı veya uzantısız dosyalarda
-tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri haline çoğaltılarak kaydedilir.**
+tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri halinde çoğaltılarak kaydedilir.**
 
 #### Örnek 1: Her şık bir paragraf
 
