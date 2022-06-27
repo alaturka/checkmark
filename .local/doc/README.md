@@ -84,7 +84,10 @@ Söz diziminde aşağıdaki kurallar geçerlidir:
 
 - Şıklar satır başında `A)` deseniyle başlar.
 
-- Şıklar tek bir paragrafta veya her şık ayrı bir paragrafta olacak şekilde yazılabilir.
+- Şıklar tek bir satırda veya her şık ayrı bir satırda başlayacak şekilde yazılabilir.
+
+- Şıkların tek satırda yazıldığı kısa formda şık metni için Markdown kullanılabilmekle beraber ayrıştırma çok basit
+  şekilde yapıldığından metin de basit tutulmalıdır.
 
 - Öntanımlı olarak ilk şık (`A`) doğrudur.  Alternatif olarak başına `*` konularak (ör `*C)` doğru şık belirtilebilir.
   Dikkat!  Doğru şık için meta bilgi alanı kullanılmaz.
