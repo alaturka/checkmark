@@ -50,6 +50,8 @@ aşağıda örneklenmektedir:
 
 	Birden fazla `Question`'dan oluşan bir `Item` için Markdown biçiminde grup metni.
 
+	---
+
 	`Item` içindeki ilk `Question`'a ait Markdown biçiminde soru gövdesi.
 
 	A) Markdown biçiminde şık (`choice`)
@@ -75,6 +77,8 @@ aşağıda örneklenmektedir:
 	A) Markdown biçiminde kısa şık B) şık C) şık D) şık E) şık
 
 Söz diziminde aşağıdaki kurallar geçerlidir:
+
+- Grup sorularda grup metni ve sorular `---` ile ayrılır (`---` daha sonra soruları ayırmak için de kullanılır).
 
 - Soru gövdesi (`stem`) ile şıklar arasında en az bir boş satır bulunur.
 
