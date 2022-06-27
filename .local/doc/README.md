@@ -286,7 +286,6 @@ olarak `.quiz` dosya uzantısı da kullanılabilir.
 
 #### Örnek 2: Referans dizisiyle
 
-	---
 	title: C Programming Final Exam
 	date: 2022-06-21
 	notes:
