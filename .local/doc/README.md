@@ -26,7 +26,7 @@ Terminoloji
 Söz dizimi
 ----------
 
-Checkmark'ta en tepede yer alan bir `Bank` nesnesi Markdown'dan türetilmiş bir söz dizimiyle temsil edilir.  Bu söz
+Checkmark'ta merkezde yer alan bir `Bank` nesnesi Markdown'dan türetilmiş bir söz dizimiyle temsil edilir.  Bu söz
 dizimi YAML biçiminde isteğe bağlı bir "frontmatter" ile başlar.  Checkmark "frontmatter"ı basit bir sözlük olarak kabul
 eder ve özel bir şekilde yorumlamaya çalışmaz.  `Item`'lar `===` satırlarıyla ayrılır.  Her `Item` tek bir `Question`
 veya birden fazla `Question`'tan oluşan bir grup sorudur.  Grup sorularda grup metni ile takip eden `Question` nesneleri
