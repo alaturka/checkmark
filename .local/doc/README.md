@@ -256,7 +256,7 @@ tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak ç
 
 YAML veya JSON biçiminde olan bu içerik türünde `Item`'ların kendisi değil referansları verilir.  `Item` referansları
 `items` isimli özel bir anahtarda tek bir dizgi veya bir dizi halinde verilebilir.  Referansların çözümlenmesi
-gerçekmeye bırakılmıştır.  Her bir referans `Item` içeren tekil türde bir `.md` dosyası olarak çözümlenebileceği gibi,
+gerçeklemeye bırakılmıştır.  Her bir referans `Item` içeren tekil türde bir `.md` dosyası olarak çözümlenebileceği gibi,
 bir veritabanından sorgulama yaparken kullanılabilecek bir `Item` tanımlayıcısı da olabilir.  Referansları "dosya yolu"
 olarak yorumlayan örnek bir gerçekleme sunulmuştur.  Kullanılması zorunlu olan `items` anahtarı dışındaki tüm anahtarlar
 ilgili `Bank` nesnesinin meta bilgileri olarak kaydedilir.  Bu anahtarlardan bir kısmı referans çözücü tarafından özel
