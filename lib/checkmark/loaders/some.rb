@@ -2,7 +2,7 @@
 
 class Checkmark
   class Loader
-    class One < self
+    class Some < self
     end
   end
 end

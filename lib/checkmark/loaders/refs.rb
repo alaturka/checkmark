@@ -2,7 +2,7 @@
 
 class Checkmark
   class Loader
-    class Coll < self
+    class Refs < self
     end
   end
 end
