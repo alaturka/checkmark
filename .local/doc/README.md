@@ -21,6 +21,8 @@ Terminoloji
 
 - `Bank`: Bir veya daha fazla sayıda `Item` içeren nesne.
 
+- `Runner`: `Bank` nesnesi ile kompoze olan işleyici nesne.
+
 Söz dizimi
 ----------
 
