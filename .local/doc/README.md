@@ -108,7 +108,7 @@ durumlar için "frontmatter"ın yorumlanma şekline göre 3 farklı soru bankas�
 ### "Birçok"
 
 Tercihen `.md` uzantılı dosyalarda tutulan bu türde "frontmatter" ile girilen tüm meta bilgiler soru bankasına ait
-şekilde yorumlanır.  Girilen meta bilgilerde `meta` anahtarıyla bildirilen sözlük aşağıda anlatıldığı gibi özel olarak
+olarak yorumlanır.  Girilen meta bilgilerde `meta` anahtarıyla bildirilen sözlük aşağıda anlatıldığı gibi özel olarak
 yorumlanır.
 
 - Bir `Item`'da ayrıştırılan soru anahtarı dizgisi sondaki noktalama işaretleri kaldırılarak `meta` sözlüğünde ilgili
