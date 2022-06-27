@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   class Registerable < Module
     attr_reader :consumer
 

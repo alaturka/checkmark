@@ -2,7 +2,7 @@
 
 require 'kramdown'
 
-class Checkmark
+module Checkmark
   class MD
     def initialize(text)
       @text = text

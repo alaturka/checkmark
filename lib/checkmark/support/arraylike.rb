@@ -2,7 +2,7 @@
 
 require 'forwardable'
 
-class Checkmark
+module Checkmark
   class Arraylike < Module
     def initialize(forwardable, *extra_methods)
       super()

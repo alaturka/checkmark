@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   module Publish
     Base = Method[self] do
       def accepts

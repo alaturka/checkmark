@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   module ABCD
     DEFAULTS = {
       nout:   4,
@@ -11,7 +11,7 @@ class Checkmark
       def call(infile, outfile = nil, **kwargs) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         settings = Settings.new kwargs.merge DEFAULTS
 
-        instance = Checkmark.load(infile, settings)
+        instance = Checkmark::Runner.read(infile, settings)
         name     = settings[:series]
         answers  = {}
 

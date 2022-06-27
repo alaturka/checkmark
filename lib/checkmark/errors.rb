@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   Error = Class.new StandardError
 end

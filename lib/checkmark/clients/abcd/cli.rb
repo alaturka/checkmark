@@ -2,7 +2,7 @@
 
 require 'optparse'
 
-class Checkmark
+module Checkmark
   module ABCD
     module CLI
       def self.call(*argv, **kwargs)

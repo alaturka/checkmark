@@ -2,7 +2,7 @@
 
 require_relative '../test_helper'
 
-class Checkmark
+module Checkmark
   class BankTest < Minitest::Test
     TESTDATA = {
       meta:  {

@@ -2,7 +2,7 @@
 
 require_relative '../test_helper'
 
-class Checkmark
+module Checkmark
   class ChoicesTest < Minitest::Test
     TESTDATA = { A: 'first', B: 'second', C: 'third', D: 'fourth', E: 'fifth' }.freeze
     Klass = Choices

@@ -2,7 +2,7 @@
 
 require 'delegate'
 
-class Checkmark
+module Checkmark
   class Settings < DelegateClass(::Hash)
     def for(section)
       self[section.to_sym] || EMPTY_HASH

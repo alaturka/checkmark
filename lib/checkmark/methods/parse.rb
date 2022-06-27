@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   module Parse
     AE = %w[A B C D E].freeze
 

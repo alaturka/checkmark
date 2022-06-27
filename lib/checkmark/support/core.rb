@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Checkmark
+module Checkmark
   EMPTY_ARRAY = [].freeze
   EMPTY_HASH  = {}.freeze
 

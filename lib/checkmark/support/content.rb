@@ -2,7 +2,7 @@
 
 require 'delegate'
 
-class Checkmark
+module Checkmark
   class Content < DelegateClass(::String)
     attr_reader :origin
 

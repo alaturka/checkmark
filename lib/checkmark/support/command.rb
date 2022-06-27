@@ -2,7 +2,7 @@
 
 require 'open3'
 
-class Checkmark
+module Checkmark
   module Command
     Result = Struct.new :argv, :out, :err, :status, :canceled, keyword_init: true do
       def exitcode
