@@ -252,7 +252,7 @@ tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak ka
 
 	Group text.
 
-	---
+	...
 
 	Question 1 stem paragraph.
 
