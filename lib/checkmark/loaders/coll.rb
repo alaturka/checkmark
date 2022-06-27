@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Read
-    class Item < Base
-      register :item
+  class Loader
+    class Coll < self
     end
   end
 end

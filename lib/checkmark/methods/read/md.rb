@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Parse
+  module Read
     class MD < Base
+      register :md
+
       RE = {
         item_sep:     /^===+$/x,
         question_sep: /^---+$/x,
@@ -11,7 +13,13 @@ class Checkmark
         choice_block: /^([#{AE[1]}-#{AE.last}])\)\s+/x
       }.freeze
 
-      def bank(text) # rubocop:disable Metrics/AbcSize
+      def call(content)
+        quiz(content, Context.new(origin: content.is_a?(Content) ? content.origin : nil))
+      end
+
+      private
+
+      def quiz(text, context)
         iter = text.split(RE[:item_sep]).map!(&:strip!).each_with_index
         context.nitems = iter.size
 
@@ -21,10 +29,10 @@ class Checkmark
           item(chunk, context.tap { _1.item = i })
         end
 
-        Bank.new({}, items)
+        Quiz.new({}, items)
       end
 
-      def item(text) # rubocop:disable Metrics/AbcSize
+      def item(text, context) # rubocop:disable Metrics/AbcSize
         body, *rest = text.split(RE[:question_sep])
 
         error('Item body missing', context) if body.strip!.empty?
@@ -35,13 +43,13 @@ class Checkmark
         questions = iter.map do |chunk, i|
           error('Empty question', context) if chunk.empty?
 
-          parse_question(chunk, context.tap { _1.question = i })
+          question(chunk, context.tap { _1.question = i })
         end
 
         Item.new(body, questions)
       end
 
-      def question(text)
+      def question(text, context)
         stem, rest = text.split(RE[:choice_start], 2).map!(&:strip!)
 
         error('Question stem missing', context) if stem.empty?
@@ -50,7 +58,7 @@ class Checkmark
         Question.new(stem, choices(rest, context))
       end
 
-      def choices(text) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      def choices(text, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         pattern, klass = text.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
         chunks = text.split(pattern).map(&:strip!)

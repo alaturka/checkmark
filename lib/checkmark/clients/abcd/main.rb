@@ -11,7 +11,7 @@ class Checkmark
       def call(infile, outfile = nil, **kwargs) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
         settings = Settings.new kwargs.merge DEFAULTS
 
-        instance = Checkmark.read(infile, settings)
+        instance = Checkmark.load(infile, settings)
         name     = settings[:series]
         answers  = {}
 

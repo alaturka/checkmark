@@ -1,8 +1,18 @@
-Belirtim
-========
+Checkmark
+=========
 
-Terminoloji
------------
+Checkmark, çoktan seçmeli sorular ve bunlarla oluşturulan soru bankalarını modelleyen ve işleyen bir kitaplıktır.
+
+Giriş
+-----
+
+Checkmark'ta soru nesnelerinde bulunan tüm metin alanları Markdown biçimindedir.  Bu sayede sorular HTML, TeX gibi
+farklı biçimlerde taranabilmektedir (rendering).  Soru metinlerinde kullanılan temel biçimin Markdown olmasına ilave
+olarak Checkmark soru bankalarını ve bu bankalardan üretilen sınavları (quiz) temsil etmek için de Markdown temelli
+kolay ayrıştırılabilir bir metinsel içerik biçimi sunar.  Bu özel biçim sayesinde basit metin dosyalarıyla soru
+bankalarının ithal edilmesi veya sınavların farklı biçimlerde üretilmesi mümkün olmaktadır.
+
+### Terminoloji
 
 - `Choices`: `A`-`E` arasındaki şıkları taşıyan sözlüğümsü nesne.
 
@@ -13,25 +23,60 @@ Terminoloji
 
 - `Bank`: Bir veya daha fazla sayıda `Item` içeren nesne.
 
-Biçimler
----------
+Söz dizimi
+----------
 
-Genel olarak 3 biçim var.
+Checkmark'ta en tepede yer alan bir `Bank` nesnesi Markdown'dan türetilmiş bir söz dizimiyle temsil edilir.  Bu söz
+dizimi YAML biçiminde isteğe bağlı bir "frontmatter" ile başlar.  Checkmark "frontmatter"ı basit bir sözlük olarak kabul
+eder ve özel bir şekilde yorumlamaya çalışmaz.  Her `Item` `===` satırlarıyla ayrılır.  `Question` nesnelerinden oluşan
+bir `Item`, soru grubuna ait Markdown biçimindeki bir paragrafla başlar ve `---` satırlarıyla ayrılmış halde `Question`
+nesnelerini içerir.  Her bir `Question` nesnesi Markdown biçimindeki soru gövdesi (`stem`) ve boş bir satırı takiben
+`A)` dizgisiyle başlayan `Choices` nesnesinden oluşur.  `Choices` nesnesinde her şık ayrı bir satırda yazılabileceği
+gibi tek paragrafta taranması istenen şıklar için tek satırlık bir biçim kullanılabilir. Bu söz dizimi genel olarak
+aşağıda örneklenmektedir:
 
-1. `Item` biçimi: Tek bir `Item` içerir.
-2. `Bank` biçimi: `Bank` içerir.
-3. `Quiz` biçimi: Seçilen `Item`'lardan oluşan bir `Bank`'le temsil edilen sınavlar.
+	---
+	anahtar1: değer1
+	anahtar2: değer2
+	---
 
-### `Item`
+	Tek `Question'dan oluşan bir `Item` için Markdown biçiminde soru gövdesi (`stem`).
 
-Tüm metin alanlarında (frontmatter hariç) Markdown biçiminin kullanıldığı; isteğe bağlı YAML frontmatter ve `---` ile
-ayrılmış sorulardan oluşan biçim.
+	A) Markdown biçiminde şık (`choice`)
+	B) Markdown biçiminde şık
+	C) Markdown biçiminde şık
+	D) Markdown biçiminde şık
+	E) Markdown biçiminde şık
 
-- Öntanımlı olarak `.md` uzantılı veya uzantısız dosyalarda tutulur.
+	===
 
-- Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak kaydedilir.
+	Birden fazla `Question`'dan oluşan bir `Item` için Markdown biçiminde grup metni.
 
-- Meta bilgiler isteğe bağlıdır ve içeriğiyle ilgilenilmez.
+	`Item` içindeki ilk `Question`'a ait Markdown biçiminde soru gövdesi.
+
+	A) Markdown biçiminde şık (`choice`)
+	B) Markdown biçiminde şık
+	C) Markdown biçiminde şık
+	D) Markdown biçiminde şık
+	E) Markdown biçiminde şık
+
+	---
+
+	`Item` içindeki diğer `Question`'a ait Markdown biçiminde soru gövdesi.
+
+	A) Markdown biçiminde şık (`choice`)
+	B) Markdown biçiminde şık
+	C) Markdown biçiminde şık
+	D) Markdown biçiminde şık
+	E) Markdown biçiminde şık
+
+	===
+
+	Tek `Question'dan oluşan bir `Item` için Markdown biçiminde soru gövdesi.
+
+	A) Markdown biçiminde kısa şık B) şık C) şık D) şık E) şık
+
+Bu söz diziminde aşağıdaki kurallar geçerlidir:
 
 - Soru gövdesi (`stem`) ile şıklar arasında en az bir boş satır bulunur.
 
@@ -41,6 +86,128 @@ ayrılmış sorulardan oluşan biçim.
 
 - Öntanımlı olarak ilk şık (`A`) doğrudur.  Alternatif olarak başına `*` konularak (ör `*C)` doğru şık belirtilebilir.
   Dikkat!  Doğru şık için meta bilgi alanı kullanılmaz.
+
+- Bir `Item`'daki ilk metin alanının (grup metni veya tek sorularda soru gövdesi) başında bulunan `/^Q[1-9]*[.)] +/`
+  veya `/^[1-9][0-9]*[.)] +/` ön eki soru anahtarı türetmek üzere kaydedilir ve göz ardı edilir.
+
+Soru bankası türleri
+--------------------
+
+Checkmark'ın merkezinde soru bankası (`Bank`) nesneleri bulunur.  Bu nesneler temelde birer soru bankası olmakla beraber
+uygulamada bir bankanın nasıl yorumlanacağı kitaplık tüketicisine bırakılmıştır.  Örneğin kitaplık tüketicisi soru
+bankasını bir sınav olarak yorumlayarak farklı kitapçık türlerinde PDF kitapçıklar üretebilir.  Bu amaçla kitapçık
+üretiminde ihtiyaç duyulacak meta bilgileri "frontmatter" sözlüğünden alınır.
+
+Bununla birlikte Checkmark olağan senaryolarda sıklıkla karşılaşılabilecek durumlar için 3 farklı soru bankası türü
+tanımlar.
+
+2. Çoğul: Soru bankalarının aktarımında ("import") veya soru kitapçığı üretiminde yararlı olabilecek ön tanımlı tür.
+1. Tekil: Tek bir `Item` içeren ve soruları kendi başına çözümlemekte yararlı olabilecek basit tür.
+3. Başvuru: Seçilen `Item`'ları değil bunlara ait referansları içeren tür.
+
+### Çoğul tür
+
+Tercihen `.md` uzantılı dosyalarda tutulan bu türde "frontmatter" ile girilen tüm meta bilgiler soru bankasına ait
+şekilde yorumlanır.  Girilen meta bilgilerde `meta` anahtarıyla bildirilen sözlük aşağıda anlatıldığı gibi özel olarak
+yorumlanır.
+
+- Bir `Item`'da ayrıştırılan soru anahtarı dizgisi sondaki noktalama işaretleri kaldırılarak `meta` sözlüğünde ilgili
+  sorunun anahtarı olarak kullanılır.
+
+- `Q` anahtarı tüm `Item`'lara ait genel meta bilgileri temsil eder.  Bir `Item`'ın meta bilgileri üretilirken `Item`'ın
+  varsa meta bilgileri bu genel meta bilgiyle birleştirilir.
+
+Örnek 1: Basit durum
+
+	---
+	name: foo
+	description: Lorem ipsum
+	---
+
+	Item 1 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+	===
+
+	Item 2 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+
+Örnek 2: Soru meta bilgileriyle
+
+	---
+	name: foo
+	description: Lorem ipsum
+	meta:
+	  Q1: { tags: [foo, bar] }
+	  Q2: { tags: [baz, bar] }
+	---
+
+	Q1. Item 1 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+	===
+
+	Q2. Item 2 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+Örnek 2: Genel soru meta bilgileriyle
+
+	---
+	name: foo
+	description: Lorem ipsum
+	meta:
+	  Q:  { tags: [foo, bar] }
+	---
+
+	Item 1 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+	===
+
+	Item 2 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+
+Örnek 3: Genel ve özel soru meta bilgileriyle
+
+	---
+	name: foo
+	description: Lorem ipsum
+	items:
+	  Q:  { tags: [foo, bar] }
+	  Q2: { tags: [baz, bar] }
+	---
+
+	Q1. Item 1 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+	===
+
+	Q2. Item 2 question stem.
+
+
+	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+
+
+### Tekil tür
+
+Bu tür, `Item`'ların tek başına temsil edilmesi için kullanılabilir.  Tercihen `.md` uzantılı veya uzantısız dosyalarda
+tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak çoğaltılarak kaydedilir.**
 
 Örnek 1: Her şık bir paragraf
 
@@ -89,162 +256,38 @@ ayrılmış sorulardan oluşan biçim.
 
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
-### `Bank`
+### Başvuru türü
 
-İsteğe bağlı YAML frontmatter ve `===` ile ayrılmış (frontmatter'sız) `Item`'lardan oluşan soru bankası.
+YAML veya JSON biçiminde olan bu içerik türünde `Item`'ların kendisi değil referansları verilir.  `Item` referansları
+`items` isimli özel bir anahtarda tek bir dizgi veya bir dizi halinde verilebilir.  Referanslardan hareketle ilgili
+`Item`'a nasıl erişileceği gerçeklemeye bırakılmakla birlikte referansları "dosya yolu" olarak yorumlayan bir gerçekleme
+sunulmuştur.  Kullanılması zorunlu olan `items` anahtarı dışındaki tüm anahtarlar ilgili `Bank` nesnesinin meta
+bilgileri olarak kaydedilir.  Bu anahtarlardan bir kısmı referans çözücü tarafından özel olarak yorumlanabilir.  Örneğin
+referansları dosya yolu olarak çözen gerçeklemede aşağıdaki anahtarlar tanımlanabilir.
 
-- Öntanımlı olarak `.bank` uzantılı dosyalarda tutulur.
+- `bankdir`: `Item`'ların aranacağı tepe dizin
 
-- İsteğe bağlı frontmatter soru bankasıyla ilgili meta bilgileri içerir.
+- `prefix`: Tüm referanslara eklenecek ön ek
 
-- Meta bilgilerle genel olarak ilgilenilmez.  Özel olarak meta bilgilerde bulunan `items` alanı ilgili `Item` anahtarı
-  ve buna karşı gelen meta bilgilerden oluşan bir alt sözlüktür.
-
-- Bir `Item`'daki ilk metin alanının (Grup metni veya tek sorularda soru gövdesi) başında bulunan `/^Q[1-9]*[.)] +/`
-  veya `/^[1-9][0-9]*[.)] +/` ön eki soru anahtarı türetmek üzere kaydedilir ve göz ardı edilir.
-
-- Bir `Item`'da ayrıştırılan ön ekten gelen dizgi sondaki noktalama işaretleri kaldırılarak meta bilgilerdeki `items`
-  sözlüğünde ilgili sorunun anahtarı olarak kullanılır.
-
-- `Q` anahtarı tüm `Item`'lara ait genel meta bilgileri temsil eder.  Bir `Item`'ın meta bilgileri üretilirken `Item`'ın
-  varsa meta bilgileri bu genel meta bilgiyle birleştirilir.
-
-Örnek 1: Basit durum
-
-	---
-	name: foo
-	description: Lorem ipsum
-	---
-
-	Item 1 question stem.
+- `suffix`: Tüm referanslara eklenecek son ek
 
 
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
+Bu içerik türündeki dosyalarda YAML için `.yml`, `.yaml`, JSON için `.json` uzantıları kullanılır.  YAML için özel
+olarak `.quiz` dosya uzantısı da kullanılabilir.
 
-	===
+Örnek 1: Tüm referanslar boşluklarla ayrılmış şekilde tek dizgide
 
-	Item 2 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-
-Örnek 2: Soru meta bilgileriyle
-
-	---
-	name: foo
-	description: Lorem ipsum
-	items:
-	  Q1: { tags: [foo, bar] }
-	  Q2: { tags: [baz, bar] }
-	---
-
-	Q1. Item 1 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-	===
-
-	Q2. Item 2 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-Örnek 2: Genel soru meta bilgileriyle
-
-	---
-	name: foo
-	description: Lorem ipsum
-	items:
-	  Q:  { tags: [foo, bar] }
-	---
-
-	Item 1 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-	===
-
-	Item 2 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-
-Örnek 3: Genel ve özel soru meta bilgileriyle
-
-	---
-	name: foo
-	description: Lorem ipsum
-	items:
-	  Q:  { tags: [foo, bar] }
-	  Q2: { tags: [baz, bar] }
-	---
-
-	Q1. Item 1 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-	===
-
-	Q2. Item 2 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-
-### Inline `Quiz`
-
-Zorunlu YAML frontmatter ve `Item`'ların açık şekilde girildiği sınav dosyası.  Bu biçim `Bank` ile aynıdır, tek fark
-frontmatter'ın zorunlu olmasıdır.
-
-- Öntanımlı olarak `.md` uzantılı dosyalarda tutulur.
-
-- Frontmatter genel olarak sınavla ilgili meta bilgileri tutar ve içeriği sadece şablon tarafından yorumlanır.
-
-Örnek:
-
-	---
 	title: C Programming Final Exam
 	date: 2022-06-21
 	notes:
 	  - Warning 1
 	  - Warning 2
-	---
+	prefix: c/
+	suffix: .md
 
-	Item 1 question stem.
+	items: 25 42 19 13
 
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-	===
-
-	Item 2 question stem.
-
-
-	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
-
-
-### `Quiz`
-
-Zorunlu YAML frontmatter ve `Item` referanslarından oluşan sınav dosyası.  "Inline `Quiz`"'le benzer olan bu biçimde
-`Item`'lar açık şekilde yazılmak yerine dosya referanslarıyla girilir.
-
-- Öntanımlı olarak `.quiz` uzantılı dosyalarda tutulur.
-
-- `Item`'lar boşluk veya satır sonlarıyla ayrılmış dosya ismi referanslarıyla belirtilir.
-
-- Refere edilen dosyalar sırasıyla komut satırından, ortam değişkeninden ve frontmatter'da isteğe bağlı olarak
-  tanımlanan `library` dizini içinde aranır.  Arama sırasında meta bilgilerdeki `prefix` alanı dosya adının başına
-  eklenir.
-
-- Uzantı verilmeyen dosya referansları arama sırasında bulunamamışsa bir de `.md` uzantısı eklenerek aranır.
-
-
-Örnek:
+Örnek 2: Referans dizisiyle
 
 	---
 	title: C Programming Final Exam
@@ -253,6 +296,11 @@ Zorunlu YAML frontmatter ve `Item` referanslarından oluşan sınav dosyası.  "
 	  - Warning 1
 	  - Warning 2
 	prefix: c/
-	---
+	suffix: .md
 
-	25 42 19 13
+
+	items:
+	  - 25
+	  - 42
+	  - 19
+	  - 13

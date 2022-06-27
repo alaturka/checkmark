@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Parse
-    class JSON < Base
+  class Loader
+    class Item < self
     end
   end
 end

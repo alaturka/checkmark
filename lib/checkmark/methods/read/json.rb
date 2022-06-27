@@ -2,8 +2,8 @@
 
 class Checkmark
   module Read
-    class Quizinline < Base
-      register :quizinline
+    class JSON < Base
+      register :json
     end
   end
 end

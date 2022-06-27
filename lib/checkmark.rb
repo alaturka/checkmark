@@ -5,8 +5,8 @@ require_relative 'checkmark/errors'
 require_relative 'checkmark/version'
 
 require_relative 'checkmark/objects'
-require_relative 'checkmark/parsers'
 require_relative 'checkmark/methods'
+require_relative 'checkmark/loaders'
 
 class Checkmark
   attr_reader :bank, :settings
@@ -46,7 +46,7 @@ class Checkmark
     new(**settings).read(reader, source, ...).tap { yield(_1) if block_given? }
   end
 
-  def self.read(file, settings, ...)
+  def self.load(file, settings, ...)
     call(Content.(File.read(file), Support.extname!(file).to_sym, origin: file), settings, ...)
   end
 end
