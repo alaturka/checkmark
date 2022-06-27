@@ -4,11 +4,11 @@ class Checkmark
   class Bank
     include Arraylike.(:@items)
 
-    attr_reader :meta, :items
+    attr_reader :items, :meta
 
     def initialize(items = [], **meta)
-      @meta = meta
       @items = items
+      @meta  = meta
     end
 
     def shuffle!

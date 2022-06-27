@@ -4,11 +4,12 @@ class Checkmark
   class Item
     include Arraylike.(:@questions)
 
-    attr_reader :text, :questions
+    attr_reader :text, :questions, :meta
 
-    def initialize(text, questions = [])
-      @text = text
+    def initialize(text, questions = [], **meta)
+      @text      = text
       @questions = questions
+      @meta      = meta
     end
 
     def shuffle!
