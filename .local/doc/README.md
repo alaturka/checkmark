@@ -97,15 +97,15 @@ bankasını bir sınav olarak yorumlayarak farklı PDF kitapçıklar üretebilir
 duyulacak meta bilgiler "frontmatter" sözlüğünden alınır.  Checkmark olağan senaryolarda sıklıkla karşılaşılabilecek
 durumlar için "frontmatter"ın yorumlanma şekline göre 3 farklı soru bankası için yararlı olabilecek işlevler sunar.
 
-1. "Birçok": Çok sayıda `Item` içeren; soru kitapçığı üretiminde veya soru bankalarının aktarımında ("import") yararlı
+1. "Çok": Çok sayıda `Item` içeren; soru kitapçığı üretiminde veya soru bankalarının aktarımında ("import") yararlı
    olabilecek ön tanımlı tür.  Frontmatter `Bank` ile ilişkilendirilir.
 
-2. "Biraz": Az sayıda (çoğunlukla bir) `Item` içeren ve soruları kendi başına çözümlemekte veya aktarmakta yararlı
-   olabilecek basit tür.  Frontmatter her bir `Item` ile (çoğaltılarak) ilişkilendirilir.
+2. "Tek": Tek bir `Item` içeren ve soruları kendi başına çözümlemekte veya aktarmakta yararlı olabilecek basit tür.
+   Frontmatter `Item` ile ilişkilendirilir.
 
 3. "Başvuru": Seçilen `Item`'ları değil bunlara ait referansları içeren tür.  İçerik tamamen frontmatter'dan oluşur.
 
-### "Birçok"
+### "Çok"
 
 Tercihen `.md` uzantılı dosyalarda tutulan bu türde "frontmatter" ile girilen tüm meta bilgiler soru bankasına ait
 olarak yorumlanır.  Girilen meta bilgilerde `meta` anahtarıyla bildirilen sözlük aşağıda anlatıldığı gibi özel olarak
@@ -203,10 +203,10 @@ yorumlanır.
 	A) Correct choice B) Wrong choice 1 C) Wrong choice 2 D) Wrong choice 3	E) Wrong choice 4
 
 
-### "Biraz"
+### "Tek"
 
 Bu tür, `Item`'ların tek başına temsil edilmesi için kullanılabilir.  Tercihen `.md` uzantılı veya uzantısız dosyalarda
-tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri halinde çoğaltılarak kaydedilir.**
+tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri olarak kaydedilir.**
 
 #### Örnek 1: Her şık bir paragraf
 
@@ -259,7 +259,7 @@ tutulur.  **Frontmatter'daki sözlük ilgili `Item`'ın meta bilgileri halinde �
 
 YAML veya JSON biçiminde olan bu içerik türünde `Item`'ların kendisi değil referansları verilir.  `Item` referansları
 `items` isimli özel bir anahtarda tek bir dizgi veya bir dizi halinde verilebilir.  Referansların çözümlenmesi
-gerçeklemeye bırakılmıştır.  Her bir referans `Item` içeren "Biraz" türünde bir `.md` dosyası olarak çözümlenebileceği
+gerçeklemeye bırakılmıştır.  Her bir referans `Item` içeren "Tek" türünde bir `.md` dosyası olarak çözümlenebileceği
 gibi, bir veritabanından sorgulama yaparken kullanılabilecek bir `Item` tanımlayıcısı da olabilir.  Kullanılması zorunlu
 olan `items` anahtarı dışındaki tüm anahtarlar ilgili `Bank` nesnesinin meta bilgileri olarak kaydedilir.  Bu
 anahtarlardan bir kısmı referans çözücü tarafından özel olarak yorumlanabilir.  Örneğin referansları dosya yolu olarak
