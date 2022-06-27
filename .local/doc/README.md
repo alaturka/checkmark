@@ -26,12 +26,12 @@ Söz dizimi
 
 Checkmark'ta en tepede yer alan bir `Bank` nesnesi Markdown'dan türetilmiş bir söz dizimiyle temsil edilir.  Bu söz
 dizimi YAML biçiminde isteğe bağlı bir "frontmatter" ile başlar.  Checkmark "frontmatter"ı basit bir sözlük olarak kabul
-eder ve özel bir şekilde yorumlamaya çalışmaz.  Her `Item` `===` satırlarıyla ayrılır.  `Question` nesnelerinden oluşan
-bir `Item`, soru grubuna ait Markdown biçimindeki bir paragrafla başlar ve `---` satırlarıyla ayrılmış halde `Question`
-nesnelerini içerir.  Her bir `Question` nesnesi Markdown biçimindeki soru gövdesi (`stem`) ve boş bir satırı takiben
-`A)` dizgisiyle başlayan `Choices` nesnesinden oluşur.  `Choices` nesnesinde her şık ayrı bir satırda yazılabileceği
-gibi tek paragrafta taranması istenen şıklar için tek satırlık bir biçim kullanılabilir. Bu söz dizimi genel olarak
-aşağıda örneklenmektedir:
+eder ve özel bir şekilde yorumlamaya çalışmaz.  `Item`'lar `===` satırlarıyla ayrılır.  Her `Item` tek bir `Question`
+veya birden fazla `Question`'tan oluşan bir grup sorudur.  Grup sorularda grup metni ile takip eden `Question` nesneleri
+`...` satırı ile; grup içindeki `Question` nesneleri ise `---` satırlarıyla ayrılır.  Her bir `Question` nesnesi
+Markdown biçimindeki soru gövdesi (`stem`) ve boş bir satırı takiben `A)` dizgisiyle başlayan `Choices` nesnesinden
+oluşur. `Choices` nesnesinde her şık ayrı bir satırda yazılabileceği gibi tek paragrafta taranması istenen şıklar için
+tek satırlık bir biçim kullanılabilir. Bu söz dizimi genel olarak aşağıda örneklenmektedir:
 
 	---
 	anahtar1: değer1
@@ -50,7 +50,7 @@ aşağıda örneklenmektedir:
 
 	Birden fazla `Question`'dan oluşan bir `Item` için Markdown biçiminde grup metni.
 
-	---
+	...
 
 	`Item` içindeki ilk `Question`'a ait Markdown biçiminde soru gövdesi.
 
@@ -78,7 +78,7 @@ aşağıda örneklenmektedir:
 
 Söz diziminde aşağıdaki kurallar geçerlidir:
 
-- Grup sorularda grup metni ve sorular `---` ile ayrılır (`---` daha sonra soruları ayırmak için de kullanılır).
+- Grup sorularda grup metni ve sorular `...` satırı ile ayrılır.  Grup metni boş olamaz.
 
 - Soru gövdesi (`stem`) ile şıklar arasında en az bir boş satır bulunur.
 
