@@ -20,7 +20,7 @@ class Checkmark
         settings[:nout].times do
           instance
             .processes(settings[:processors] || [])
-            .write(:tex)
+            .render(:tex)
             .emit(:random).tap { answers[name] = _1.bank.answers }
             .publish(:pdf, pdf, name: name.succ!)
         end

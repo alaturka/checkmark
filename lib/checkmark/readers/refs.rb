@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Write
-    class TeX < Base
-      register :tex
+  class Reader
+    class Refs < self
     end
   end
 end

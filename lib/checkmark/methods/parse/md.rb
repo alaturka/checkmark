@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Read
+  module Parse
     class MD < Base
       register :md
 
       RE = {
         item_sep:     /^===+$/x,
+        lead_sep:     /^[.][.][.]+$/x,
         question_sep: /^---+$/x,
         choice_start: /\n[ \t]*\n#{AE.first}\)\s+/x,
         choice_line:  /\b([#{AE[1]}-#{AE.last}])\)\s+/x,
@@ -33,11 +34,11 @@ class Checkmark
       end
 
       def item(text, context) # rubocop:disable Metrics/AbcSize
-        body, *rest = text.split(RE[:question_sep])
+        body, rest = text.split(RE[:lead_sep], 2)
 
         error('Item body missing', context) if body.strip!.empty?
 
-        iter = rest.map!(&:strip!).each_with_index
+        iter = rest.split(RE[:question_sep]).map!(&:strip!).each_with_index
         context.nquestions = iter.size
 
         questions = iter.map do |chunk, i|

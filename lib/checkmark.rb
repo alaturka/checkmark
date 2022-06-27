@@ -6,7 +6,7 @@ require_relative 'checkmark/version'
 
 require_relative 'checkmark/objects'
 require_relative 'checkmark/methods'
-require_relative 'checkmark/loaders'
+require_relative 'checkmark/readers'
 
 class Checkmark
   attr_reader :bank, :settings
@@ -16,11 +16,11 @@ class Checkmark
     @settings = settings
   end
 
-  def read(reader, ...)
-    self.class.new Read.handler!(reader, settings.for(:read)).(...), **settings
+  def parse(parser, ...)
+    self.class.new Parse.handler!(parser, settings.for(:read)).(...), **settings
   end
 
-  { process: Process, emit: Emit, write: Write, publish: Publish }.each do |method, modul|
+  { process: Process, emit: Emit, render: Render, publish: Publish }.each do |method, modul|
     define_method(method) do |name, *args, **kwargs|
       return self unless name
 
@@ -42,8 +42,8 @@ class Checkmark
     raise NotImplementedError
   end
 
-  def self.call(source, reader, settings, ...)
-    new(**settings).read(reader, source, ...).tap { yield(_1) if block_given? }
+  def self.call(source, parser, settings, ...)
+    new(**settings).parse(parser, source, ...).tap { yield(_1) if block_given? }
   end
 
   def self.load(file, settings, ...)

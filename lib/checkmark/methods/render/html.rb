@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Checkmark
-  class Loader
-    class One < self
+  module Render
+    class HTML < Base
+      register :html
     end
   end
 end

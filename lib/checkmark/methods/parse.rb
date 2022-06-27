@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Checkmark
-  module Read
+  module Parse
     AE = %w[A B C D E].freeze
 
     Error = Class.new Error
@@ -38,7 +38,7 @@ class Checkmark
       end
     end
 
-    require_relative 'read/json'
-    require_relative 'read/md'
+    require_relative 'parse/json'
+    require_relative 'parse/md'
   end
 end
