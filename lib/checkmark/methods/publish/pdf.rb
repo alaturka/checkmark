@@ -10,7 +10,7 @@ module Checkmark
       end
 
       def accepts
-        %i[tex]
+        [:tex]
       end
     end
   end

@@ -2,17 +2,17 @@
 
 module Checkmark
   module Parse
-    AE = %w[A B C D E].freeze
+    AE = ["A", "B", "C", "D", "E"].freeze
 
-    Error = Class.new Error
+    Error = Class.new(Error)
 
-    Context = Struct.new :origin, :item, :nitem, :question, :nquestion, keyword_init: true do
-      def to_s # rubocop:disable Metrics/AbcSize
+    Context = Struct.new(:origin, :item, :nitem, :question, :nquestion, keyword_init: true) do
+      def to_s
         [].tap do |strings|
           strings << origin.to_s                if origin
           strings << "Item #{item + 1}"         if item && nitem > 1
           strings << "Question #{question + 1}" if question && nquestion > 1
-        end.join ': '
+        end.join(": ")
       end
     end
 
@@ -27,7 +27,7 @@ module Checkmark
           duplicate = choices.duplicate
           error("Duplicate choice found: #{duplicate}", context) if duplicate
 
-          error('Inconsistent number of choices', context) if @prev_choices && prev_choices.size != choices.size
+          error("Inconsistent number of choices", context) if @prev_choices && prev_choices.size != choices.size
 
           @prev_choices = choices
         end
@@ -38,7 +38,7 @@ module Checkmark
       end
     end
 
-    require_relative 'parse/json'
-    require_relative 'parse/md'
+    require_relative "parse/json"
+    require_relative "parse/md"
   end
 end

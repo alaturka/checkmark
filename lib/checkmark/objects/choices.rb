@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require "delegate"
 
 module Checkmark
   class Choices < DelegateClass(::Hash)
@@ -11,7 +11,7 @@ module Checkmark
 
       @correct =
         if correct
-          raise ArgumentError, "Invalid key: #{correct}" unless choices.key? correct
+          raise ArgumentError, "Invalid key: #{correct}" unless choices.key?(correct)
 
           correct
         else
@@ -26,14 +26,14 @@ module Checkmark
 
     def shuffle!
       @correct = (new_choices = shuffle).correct
-      tap { replace new_choices }
+      tap { replace(new_choices) }
     end
 
     def correct_choice
       self[correct]
     end
 
-    alias each_choice each_value
+    alias_method :each_choice, :each_value
 
     def duplicate
       values.detect { |e| values.count(e) > 1 }
@@ -44,5 +44,5 @@ module Checkmark
     end
   end
 
-  ShortChoices = Class.new Choices
+  ShortChoices = Class.new(Choices)
 end

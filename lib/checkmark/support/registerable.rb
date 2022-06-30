@@ -10,16 +10,16 @@ module Checkmark
       @consumer = consumer
 
       @consumer.instance_variable_set(:@registery, {})
-      @consumer.singleton_class.attr_reader :registery
+      @consumer.singleton_class.attr_reader(:registery)
 
-      @consumer.extend ConsumerMethods
+      @consumer.extend(ConsumerMethods)
     end
 
     def extended(base)
       registery = consumer.registery
       base.define_singleton_method(:registery) { registery }
 
-      base.extend ClassMethods
+      base.extend(ClassMethods)
     end
 
     def self.[](...)
@@ -29,7 +29,7 @@ module Checkmark
     module ClassMethods
       def register(symbol, klass = nil)
         registery[type = symbol.to_sym] = klass || self
-        singleton_class.attr_reader :type
+        singleton_class.attr_reader(:type)
         instance_variable_set(:@type, type)
       end
     end

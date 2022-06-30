@@ -4,6 +4,6 @@ module Checkmark
   module Process
     Base = Method[self]
 
-    require_relative 'process/run'
+    require_relative "process/run"
   end
 end

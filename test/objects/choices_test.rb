@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-require_relative '../test_helper'
+require_relative "../test_helper"
 
 module Checkmark
   class ChoicesTest < Minitest::Test
-    TESTDATA = { A: 'first', B: 'second', C: 'third', D: 'fourth', E: 'fifth' }.freeze
+    TESTDATA = { A: "first", B: "second", C: "third", D: "fourth", E: "fifth" }.freeze
     Klass = Choices
 
     def test_construction_implicit
       choices = Klass[**TESTDATA]
 
       assert_equal(:A, choices.correct)
-      assert_equal('first', choices.correct_choice)
+      assert_equal("first", choices.correct_choice)
     end
 
     def test_construction_explicit
       choices = Klass[:C, **TESTDATA]
 
       assert_equal(:C, choices.correct)
-      assert_equal('third', choices.correct_choice)
+      assert_equal("third", choices.correct_choice)
     end
 
     def test_like_hash
@@ -26,8 +26,8 @@ module Checkmark
 
       assert_equal(TESTDATA.size, choices.size)
 
-      assert_equal('first', choices[:A])
-      assert_equal('fifth', choices[:E])
+      assert_equal("first", choices[:A])
+      assert_equal("fifth", choices[:E])
     end
 
     def test_shuffle_implicit

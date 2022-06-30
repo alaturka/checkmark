@@ -12,11 +12,11 @@ module Checkmark
 
     def self.load_file(file, parser = nil, **settings)
       content = Content.(File.read(file), Support.extname!(file).to_sym, origin: file)
-      new content, parser, **settings
+      new(content, parser, **settings)
     end
 
-    require_relative 'readers/many'
-    require_relative 'readers/one'
-    require_relative 'readers/refs'
+    require_relative "readers/many"
+    require_relative "readers/one"
+    require_relative "readers/refs"
   end
 end

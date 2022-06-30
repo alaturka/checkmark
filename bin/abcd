@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'checkmark/clients/abcd'
+require "checkmark/clients/abcd"
 
 def main
   Checkmark::ABCD::CLI.call
 rescue Checkmark::Error => e
-  abort e.message
+  abort(e.message)
 end
 
 main

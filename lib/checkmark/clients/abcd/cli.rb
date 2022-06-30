@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'optparse'
+require "optparse"
 
 module Checkmark
   module ABCD
     module CLI
       def self.call(*argv, **kwargs)
-        args setup(argv, kwargs), argv
+        args(setup(argv, kwargs), argv)
 
         Checkmark.ABCD(**kwargs) # TODO: implememt
       rescue OptionParser::InvalidOption, Error => e
@@ -16,10 +16,9 @@ module Checkmark
       class << self
         private
 
-        # rubocop:disable Metrics/MethodLength
         # codebeat:disable[LOC]
         def setup(argv, _options)
-          Signal.trap('INT') { Kernel.abort '' }
+          Signal.trap("INT") { Kernel.abort("") }
 
           OptionParser.new do |option|
             program_name = option.program_name
@@ -32,31 +31,30 @@ module Checkmark
 
             BANNER
 
-            option.on_tail('-h', '--help', 'Show this message') do
-              abort option.help
+            option.on_tail("-h", "--help", "Show this message") do
+              abort(option.help)
             end
 
-            option.on_tail('-v', '--version', 'Show version') do
-              warn VERSION
+            option.on_tail("-v", "--version", "Show version") do
+              warn(VERSION)
               exit
             end
-          end.tap { |parser| parser.parse!(argv) } # rubocop:disable Style/MultilineBlockChain
+          end.tap { |parser| parser.parse!(argv) }
         end
-        # codebeat:enable[LOC]
-        # rubocop:enable Metrics/MethodLength
 
+        # codebeat:enable[LOC]
         def args(parser, argv)
           if argv.empty?
-            warn parser.help
-            warn ''
-            abort 'Error: TODO'
+            warn(parser.help)
+            warn("")
+            abort("Error: TODO")
           end
 
           return if argv.size <= 1
 
-          warn parser.help
-          warn ''
-          abort 'Error: Too many arguments.'
+          warn(parser.help)
+          warn("")
+          abort("Error: Too many arguments.")
         end
       end
     end

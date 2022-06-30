@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require 'checkmark'
+require "checkmark"
 
-require_relative 'abcd/main'
+require_relative "abcd/main"

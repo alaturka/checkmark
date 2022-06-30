@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require "delegate"
 
 module Checkmark
   class Content < DelegateClass(::String)
     attr_reader :origin
 
-    def initialize(string = '', origin: nil)
+    def initialize(string = "", origin: nil)
       super(::String.new(string))
 
       @origin = origin

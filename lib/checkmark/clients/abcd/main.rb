@@ -4,12 +4,12 @@ module Checkmark
   module ABCD
     DEFAULTS = {
       nout:   4,
-      series: 'A'
+      series: "A",
     }.freeze
 
     class << self
-      def call(infile, outfile = nil, **kwargs) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-        settings = Settings.new kwargs.merge DEFAULTS
+      def call(infile, outfile = nil, **kwargs)
+        settings = Settings.new(kwargs.merge(DEFAULTS))
 
         instance = Checkmark::Runner.read(infile, settings)
         name     = settings[:series]
@@ -27,7 +27,7 @@ module Checkmark
 
         Publish::PDF.answers(answers, pdf)
 
-        pdf.save outfile
+        pdf.save(outfile)
       end
     end
   end

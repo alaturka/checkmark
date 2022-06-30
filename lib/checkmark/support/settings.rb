@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'delegate'
+require "delegate"
 
 module Checkmark
   class Settings < DelegateClass(::Hash)

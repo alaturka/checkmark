@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'forwardable'
+require "forwardable"
 
 module Checkmark
   class Arraylike < Module
@@ -12,9 +12,9 @@ module Checkmark
     end
 
     def included(base)
-      base.extend Forwardable
+      base.extend(Forwardable)
       base.def_delegators(@forwardable, :<<, :append, :each, :map, :size, *@extra_methods)
-      base.include InstanceMethods
+      base.include(InstanceMethods)
     end
 
     def self.call(...)

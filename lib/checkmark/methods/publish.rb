@@ -12,7 +12,7 @@ module Checkmark
       end
 
       def accepted?(type)
-        accepts.include? type.to_sym
+        accepts.include?(type.to_sym)
       end
 
       def accepted!(bank)
@@ -20,7 +20,7 @@ module Checkmark
       end
     end
 
-    require_relative 'publish/html'
-    require_relative 'publish/pdf'
+    require_relative "publish/html"
+    require_relative "publish/pdf"
   end
 end

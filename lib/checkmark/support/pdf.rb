@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'combine_pdf'
+require "combine_pdf"
 
 module Checkmark
   class PDF

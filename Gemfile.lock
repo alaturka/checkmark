@@ -55,6 +55,8 @@ GEM
       rubocop-ast (>= 0.4.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
+    rubocop-shopify (2.7.1)
+      rubocop (~> 1.30)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
     rubygems-tasks (0.2.5)
@@ -74,6 +76,7 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rake
+  rubocop-shopify
   rubygems-tasks
 
 RUBY VERSION

@@ -4,6 +4,6 @@ module Checkmark
   module Emit
     Base = Method[self]
 
-    require_relative 'emit/random'
+    require_relative "emit/random"
   end
 end

@@ -11,7 +11,7 @@ module Checkmark
         question_sep: /^---+$/x,
         choice_start: /\n[ \t]*\n#{AE.first}\)\s+/x,
         choice_line:  /\b([#{AE[1]}-#{AE.last}])\)\s+/x,
-        choice_block: /^([#{AE[1]}-#{AE.last}])\)\s+/x
+        choice_block: /^([#{AE[1]}-#{AE.last}])\)\s+/x,
       }.freeze
 
       def call(content)
@@ -25,7 +25,7 @@ module Checkmark
         context.nitems = iter.size
 
         items = iter.map do |chunk, i|
-          error('Empty item', context) if chunk.empty?
+          error("Empty item", context) if chunk.empty?
 
           item(chunk, context.tap { _1.item = i })
         end
@@ -33,16 +33,16 @@ module Checkmark
         Quiz.new({}, items)
       end
 
-      def item(text, context) # rubocop:disable Metrics/AbcSize
+      def item(text, context)
         body, rest = text.split(RE[:lead_sep], 2)
 
-        error('Item body missing', context) if body.strip!.empty?
+        error("Item body missing", context) if body.strip!.empty?
 
         iter = rest.split(RE[:question_sep]).map!(&:strip!).each_with_index
         context.nquestions = iter.size
 
         questions = iter.map do |chunk, i|
-          error('Empty question', context) if chunk.empty?
+          error("Empty question", context) if chunk.empty?
 
           question(chunk, context.tap { _1.question = i })
         end
@@ -53,13 +53,13 @@ module Checkmark
       def question(text, context)
         stem, rest = text.split(RE[:choice_start], 2).map!(&:strip!)
 
-        error('Question stem missing', context) if stem.empty?
-        error('No choices found', context) unless rest
+        error("Question stem missing", context) if stem.empty?
+        error("No choices found", context) unless rest
 
         Question.new(stem, choices(rest, context))
       end
 
-      def choices(text, context) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      def choices(text, context)
         pattern, klass = text.include?("\n") ? [Choices, RE[:choice_block]] : [ShortChoices, RE[:choice_line]]
 
         chunks = text.split(pattern).map(&:strip!)

@@ -1,3 +1,6 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
 require:
   - "rubocop-minitest"
   - "rubocop-performance"

@@ -10,14 +10,14 @@ module Checkmark
     end
 
     def parse(parser, ...)
-      self.class.new Parse.handler!(parser, settings.for(:read)).(...), **settings
+      self.class.new(Parse.handler!(parser, settings.for(:read)).(...), **settings)
     end
 
     { process: Process, emit: Emit, render: Render, publish: Publish }.each do |method, modul|
       define_method(method) do |name, *args, **kwargs|
         return self unless name
 
-        self.class.new modul.handler!(name, settings.for(method)).(bank, *args, **kwargs), **settings
+        self.class.new(modul.handler!(name, settings.for(method)).(bank, *args, **kwargs), **settings)
       end
     end
 

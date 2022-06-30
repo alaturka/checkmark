@@ -5,7 +5,7 @@ module Checkmark
   EMPTY_HASH  = {}.freeze
 
   module Support
-    module_function
+    extend self
 
     def extname(file)
       File.extname(file).strip.downcase[1..]
