@@ -32,7 +32,7 @@ module Checkmark
   end
 
   def self.template!(...)
-    template(...).tap { raise "Missing template: #{template}" unless _1.exist? }
+    template(...).tap { raise "Missing template: #{_1}" unless _1.exist? }
   end
 
   def self.template?(type, layout = "default", name = nil)
