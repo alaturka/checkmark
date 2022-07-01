@@ -15,7 +15,7 @@ module Checkmark
     end
 
     def exist?(name = nil)
-      name ? File.exist?(file(name)) : Dir.exist?(dir)
+      name ? File.exist?(self[name]) : Dir.exist?(dir)
     end
 
     def to_s
