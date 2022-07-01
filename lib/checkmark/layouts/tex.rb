@@ -3,9 +3,11 @@
 module Checkmark
   module Layouts
     module TeX
-      Base = Template[self]
+      Base = Layout[self]
 
       require_relative "tex/default"
+
+      Layouts[:tex] = self
     end
   end
 end

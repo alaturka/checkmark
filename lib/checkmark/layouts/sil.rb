@@ -3,9 +3,11 @@
 module Checkmark
   module Layouts
     module Sil
-      Base = Template[self]
+      Base = Layout[self]
 
       require_relative "sil/default"
+
+      Layouts[:sil] = self
     end
   end
 end
