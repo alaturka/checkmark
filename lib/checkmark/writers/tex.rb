@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Layouts
+  module Writers
     module TeX
-      Base = Layout[self]
+      Base = Writer[self]
 
       require_relative "tex/default"
 
-      Layouts[:tex] = self
+      Writers[:tex] = self
     end
   end
 end

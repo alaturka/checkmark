@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Layouts
-    module TeX
+  module Writers
+    module HTML
       class Default < Base
         register :default
       end

@@ -13,7 +13,7 @@ module Checkmark
       self.class.new(Parse.handler!(parser, settings.for(:read)).(...), **settings)
     end
 
-    { process: Process, emit: Emit, render: Render, publish: Publish }.each do |method, modul|
+    { process: Process, emit: Emit, render: Render }.each do |method, modul|
       define_method(method) do |name, *args, **kwargs|
         return self unless name
 

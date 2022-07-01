@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Layouts
+  module Writers
     module Sil
-      Base = Layout[self]
+      Base = Writer[self]
 
       require_relative "sil/default"
 
-      Layouts[:sil] = self
+      Writers[:sil] = self
     end
   end
 end

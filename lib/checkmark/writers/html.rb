@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Layouts
+  module Writers
     module HTML
-      Base = Layout[self]
+      Base = Writer[self]
 
       require_relative "html/default"
 
-      Layouts[:html] = self
+      Writers[:html] = self
     end
   end
 end
