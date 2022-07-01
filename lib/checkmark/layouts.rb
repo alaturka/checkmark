@@ -7,16 +7,11 @@ module Checkmark
     def initialize(type, layout = "default")
       @type   = type
       @layout = layout
-
       @dir    = File.join(__dir__, "layouts", type, layout)
     end
 
-    def file(name)
-      File.join(dir, "#{name}.erb")
-    end
-
-    def file!(name)
-      file(name).tap { raise Error, "No template found in #{self}: #{name}" unless File.exist?(_1) }
+    def [](name)
+      File.join(dir, "#{name}.erb").tap { raise Error, "No template found in #{self}: #{name}" unless File.exist?(_1) }
     end
 
     def exist?(name = nil)
