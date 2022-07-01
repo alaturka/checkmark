@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Parse
-    class MD < Base
+  class Reader
+    class MD < Parser
       register :md
 
       RE = {

@@ -1,22 +1,32 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Parse
-    AE = ["A", "B", "C", "D", "E"].freeze
+  class Reader
+    class Parser
+      extend Registerable[Parser]
 
-    Error = Class.new(Error)
+      AE = ["A", "B", "C", "D", "E"].freeze
 
-    Context = Struct.new(:origin, :item, :nitem, :question, :nquestion, keyword_init: true) do
-      def to_s
-        [].tap do |strings|
-          strings << origin.to_s                if origin
-          strings << "Item #{item + 1}"         if item && nitem > 1
-          strings << "Question #{question + 1}" if question && nquestion > 1
-        end.join(": ")
+      Context = Struct.new(:origin, :item, :nitem, :question, :nquestion, keyword_init: true) do
+        def to_s
+          [].tap do |strings|
+            strings << origin.to_s                if origin
+            strings << "Item #{item + 1}"         if item && nitem > 1
+            strings << "Question #{question + 1}" if question && nquestion > 1
+          end.join(": ")
+        end
       end
-    end
 
-    Base = Method[self] do
+      attr_reader :settings
+
+      def initialize(settings)
+        @settings = settings.dup.freeze
+      end
+
+      def call(...)
+        raise NotImplementedError
+      end
+
       private
 
       def new_sanitized_choices(klass, hash, context)
@@ -37,8 +47,8 @@ module Checkmark
         raise Error, context.to_s.empty? ? message : "#{context}: #{message}"
       end
     end
-
-    require_relative "parse/json"
-    require_relative "parse/md"
   end
+
+  require_relative "parse/json"
+  require_relative "parse/md"
 end
