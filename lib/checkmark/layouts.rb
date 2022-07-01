@@ -27,4 +27,12 @@ module Checkmark
       to_s.to_sym
     end
   end
+
+  def self.layout(type, variant = "default")
+    Layout.new(type, variant)
+  end
+
+  def self.layout?(...)
+    File.exist?(Layout.new(...).template)
+  end
 end
