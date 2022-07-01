@@ -1,26 +1,30 @@
 # frozen_string_literal: true
 
 module Checkmark
-  class Layout
-    attr_reader :type, :variant
+  class Template
+    attr_reader :type, :layout, :dir
 
-    def initialize(type, variant)
-      @type    = type
-      @variant = variant
+    def initialize(type, layout = "default")
+      @type   = type
+      @layout = layout
 
-      @dir     = File.join(__dir__, "layouts", type, variant)
+      @dir    = File.join(__dir__, "layouts", type, layout)
     end
 
-    def template(name = nil)
-      name ? File.join(@dir, "#{name}.erb") : @dir
+    def file(name)
+      File.join(dir, "#{name}.erb")
     end
 
-    def template?(...)
-      File.exist?(templat(...))
+    def file!(name)
+      file(name).tap { raise Error, "No template found in #{self}: #{name}" unless File.exist?(_1) }
+    end
+
+    def exist?(name = nil)
+      name ? File.exist?(file(name)) : Dir.exist?(dir)
     end
 
     def to_s
-      "#{type}/#{variant}"
+      "#{type}/#{layout}"
     end
 
     def to_sym
@@ -28,11 +32,15 @@ module Checkmark
     end
   end
 
-  def self.layout(type, variant = "default")
-    Layout.new(type, variant)
+  def self.template(...)
+    Template.new(...)
   end
 
-  def self.layout?(...)
-    File.exist?(Layout.new(...).template)
+  def self.template!(...)
+    template(...).tap { raise "Missing template: #{template}" unless _1.exist? }
+  end
+
+  def self.template?(...)
+    template(...).exist?
   end
 end
