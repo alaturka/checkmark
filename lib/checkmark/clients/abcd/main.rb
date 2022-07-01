@@ -19,13 +19,13 @@ module Checkmark
 
         settings[:nout].times do
           instance
-            .processes(settings[:processors] || [])
+            .processes(settings[:processors])
             .render(:tex)
             .emit(:random).tap { answers[name] = _1.bank.answers }
             .publish(:pdf, pdf, name: name.succ!)
         end
 
-        Publish::PDF.answers(answers, pdf)
+        Publish::PDF.supplimentary(pdf, answers: answers)
 
         pdf.save(outfile)
       end
