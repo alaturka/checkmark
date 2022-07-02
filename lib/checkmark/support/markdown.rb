@@ -3,7 +3,7 @@
 require "kramdown"
 
 module Checkmark
-  class MD
+  class Markdown
     def initialize(text)
       @text = text
     end
