@@ -13,9 +13,9 @@ module Checkmark
     def call(...)
       raise NotImplementedError
     end
-  end
 
-  require_relative "methods/emit"
-  require_relative "methods/process"
-  require_relative "methods/render"
+    require_relative "methods/emit"
+    require_relative "methods/process"
+    require_relative "methods/render"
+  end
 end
