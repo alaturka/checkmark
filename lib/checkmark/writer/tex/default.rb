@@ -3,8 +3,7 @@
 module Checkmark
   class Writer
     class TeX
-      class Default < self
-      end
+      Default = Class.new(self)
     end
   end
 end

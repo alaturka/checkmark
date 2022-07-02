@@ -3,8 +3,7 @@
 module Checkmark
   class Writer
     class HTML
-      class Default < self
-      end
+      Default = Class.new(self)
     end
   end
 end
