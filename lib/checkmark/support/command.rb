@@ -18,7 +18,7 @@ module Checkmark
       end
 
       def timeout?
-        Signal.signame(status&.termsig || 0) == 'XCPU'
+        Signal.signame(status&.termsig || 0) == "XCPU"
       end
 
       def canceled?
@@ -26,7 +26,7 @@ module Checkmark
       end
 
       def segfaulted?
-        Signal.signame(status&.termsig || 0) == 'SEGV'
+        Signal.signame(status&.termsig || 0) == "SEGV"
       end
 
       def command
@@ -56,7 +56,7 @@ module Checkmark
       rlimit_cpu:   [15,                   16], # 15 seconds, +1 for hard limit to signal XCPU before reaching hard limit
       rlimit_as:    [536_870_912, 536_870_912], # 512 MB, half of the memory of a micro instance
       rlimit_data:  [536_870_912, 536_870_912], # 512 MB, half of the memory of a micro instance
-      rlimit_core:  0                           # no core dump
+      rlimit_core:  0,                           # no core dump
     }.freeze
     # rubocop:enable Layout
 

@@ -2,7 +2,7 @@
 
 module Checkmark
   class Method
-    extend Queryable
+    extend Inquirable
 
     attr_reader :settings
 

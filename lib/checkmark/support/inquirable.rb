@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Queryable
+  module Inquirable
     def _lookup
       @_lookup ||= Hash[
         *subclasses.map { |klass| [klass.name.split("::").last.downcase.to_sym, klass] }.flatten

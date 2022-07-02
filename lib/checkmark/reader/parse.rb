@@ -3,7 +3,7 @@
 module Checkmark
   class Reader
     class Parser
-      extend Queryable
+      extend Inquirable
 
       AE = ["A", "B", "C", "D", "E"].freeze
 

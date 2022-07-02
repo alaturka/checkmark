@@ -2,7 +2,7 @@
 
 module Checkmark
   class Writer
-    extend Queryable
+    extend Inquirable
 
     def render
       raise NotImplementedError

@@ -2,7 +2,7 @@
 
 module Checkmark
   class Reader
-    extend Queryable
+    extend Inquirable
 
     attr_reader :content, :parser, :settings
 
