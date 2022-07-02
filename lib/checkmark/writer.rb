@@ -12,8 +12,8 @@ module Checkmark
       raise NotImplementedError
     end
 
-    require_relative "writers/html"
-    require_relative "writers/sil"
-    require_relative "writers/tex"
+    require_relative "writer/html"
+    require_relative "writer/sil"
+    require_relative "writer/tex"
   end
 end
