@@ -2,26 +2,26 @@
 
 module Checkmark
   module Queryable
-    def _subclasses_lookup
-      @_subclasses_lookup ||= Hash[
+    def _lookup
+      @_lookup ||= Hash[
         *subclasses.map { |klass| [klass.name.split("::").last.downcase.to_sym, klass] }.flatten
       ]
     end
 
     def [](name)
-      _subclasses_lookup[name.to_sym].tap { raise "No such subclass exist for #{name}" unless _1 }
+      _lookup[name.to_sym].tap { raise "No such subclass exist for #{name}" unless _1 }
     end
 
     def each_name_class(...)
-      _subclasses_lookup.each(...)
+      _lookup.each(...)
     end
 
     def availables
-      _subclasses_lookup.keys
+      _lookup.keys
     end
 
     def available?(name)
-      _subclasses_lookup.key?(name.to_sym)
+      _lookup.key?(name.to_sym)
     end
 
     def instance_for(name, ...)
