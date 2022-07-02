@@ -49,12 +49,11 @@ module Checkmark
         registery[type].new(...)
       end
 
-      def handler_for!(string, ...)
-        [Support.extname(string = string.to_s).to_sym, string.downcase.to_sym].each do |type|
-          return registery[type].new(...) if registery.key?(type)
-        end
+      def handler_for_file!(file, ...)
+        type = Support.extname(file)
+        return registery[type].new(...) if registery.key?(type)
 
-        raise Error, "Couldn't find a handler for #{string}"
+        raise Error, "Couldn't find a handler for #{file}"
       end
     end
   end
