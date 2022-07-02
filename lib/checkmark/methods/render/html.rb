@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Render
-    class HTML < Base
-      register :html
+  class Method
+    class Render
+      class HTML < self
+      end
     end
   end
 end

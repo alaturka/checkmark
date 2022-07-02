@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Writers
-    module TeX
-      class Default < Base
-        register :default
+  class Writer
+    class TeX
+      class Default < self
       end
     end
   end

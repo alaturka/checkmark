@@ -8,3 +8,5 @@ require_relative "checkmark/methods"
 require_relative "checkmark/objects"
 require_relative "checkmark/readers"
 require_relative "checkmark/writers"
+
+require_relative "checkmark/source"

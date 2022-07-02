@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Process
-    class Run < Base
-      register :run
+  class Method
+    class Process
+      class Run < self
+      end
     end
   end
 end

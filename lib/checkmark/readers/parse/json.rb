@@ -2,8 +2,9 @@
 
 module Checkmark
   class Reader
-    class JSON < Parser
-      register :json
+    class Parser
+      class JSON < self
+      end
     end
   end
 end

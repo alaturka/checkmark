@@ -2,9 +2,7 @@
 
 module Checkmark
   class Method
-    def self.[](modul, &block)
-      Class.new(self, &block).tap { _1.extend(Registerable[modul]) }
-    end
+    extend Queryable
 
     attr_reader :settings
 

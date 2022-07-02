@@ -2,6 +2,8 @@
 
 module Checkmark
   class Reader
+    extend Queryable
+
     attr_reader :content, :parser, :settings
 
     def initialize(content, parser, **settings)

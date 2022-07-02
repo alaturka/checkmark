@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Writers
-    module Sil
-      Base = Writer[self]
-
+  class Writer
+    class Sil < self
       require_relative "sil/default"
-
-      Writers[:sil] = self
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Checkmark
-  class Runner
+  class Source
     attr_reader :bank, :settings
 
     def initialize(bank = Bank.new, **settings)
@@ -13,11 +13,11 @@ module Checkmark
       self.class.new(Parse.handler!(parser, settings.for(:read)).(...), **settings)
     end
 
-    { process: Process, emit: Emit, render: Render }.each do |method, modul|
+    Method.each_name_class do |method, klass|
       define_method(method) do |name, *args, **kwargs|
         return self unless name
 
-        self.class.new(modul.handler!(name, settings.for(method)).(bank, *args, **kwargs), **settings)
+        self.class.new(klass[name].new(settings.for(method)).(bank, *args, **kwargs), **settings)
       end
     end
 

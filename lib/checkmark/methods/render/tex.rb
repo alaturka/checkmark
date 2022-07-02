@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Checkmark
-  module Render
-    class TeX < Base
-      register :tex
+  class Method
+    class Render
+      class TeX < self
+      end
     end
   end
 end
