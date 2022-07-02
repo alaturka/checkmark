@@ -13,7 +13,7 @@ module Checkmark
       self.class.new(Parse.handler!(parser, settings.for(:read)).(...), **settings)
     end
 
-    Method.each_name_class do |method, klass|
+    Method.each_subclass do |method, klass|
       define_method(method) do |name, *args, **kwargs|
         return self unless name
 

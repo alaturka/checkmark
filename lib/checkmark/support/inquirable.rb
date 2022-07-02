@@ -12,7 +12,7 @@ module Checkmark
       _lookup[name.to_sym].tap { raise "No such subclass exist for #{name}" unless _1 }
     end
 
-    def each_name_class(...)
+    def each_subclass(...)
       _lookup.each(...)
     end
 
