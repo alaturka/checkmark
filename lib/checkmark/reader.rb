@@ -17,8 +17,7 @@ module Checkmark
       new(content, parser, **settings)
     end
 
-    require_relative "reader/parse"
-
+    require_relative "reader/parser"
     require_relative "reader/many"
     require_relative "reader/one"
     require_relative "reader/refs"

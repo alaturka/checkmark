@@ -49,6 +49,6 @@ module Checkmark
     end
   end
 
-  require_relative "parse/json"
-  require_relative "parse/md"
+  require_relative "parser/json"
+  require_relative "parser/md"
 end
